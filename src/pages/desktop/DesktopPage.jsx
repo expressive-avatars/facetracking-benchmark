@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import io from "socket.io-client"
 
-export function App() {
+export function DesktopPage() {
   const [socket] = useState(() => io())
   useEffect(() => {
     socket.send("mount")
