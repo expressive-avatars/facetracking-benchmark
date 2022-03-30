@@ -10,10 +10,6 @@ async function createServer() {
   const server = http.createServer(app)
   const io = new SocketIoServer(server)
 
-  const vite = await createViteServer({
-    server: { middlewareMode: "html" },
-  })
-
   app.get("/custom", (req, res) => {
     res.send("Hey express")
   })
@@ -23,7 +19,14 @@ async function createServer() {
     socket.on("message", (message) => console.log(`[${socket.id}]`, message))
   })
 
-  app.use(vite.middlewares)
+  if (process.env.NODE_ENV === "development") {
+    const vite = await createViteServer({
+      server: { middlewareMode: "html" },
+    })
+    app.use(vite.middlewares)
+  } else {
+    app.use(express.static("dist"))
+  }
 
   server.listen(PORT, () => {
     console.log(`listening on http://localhost:${PORT}`)
