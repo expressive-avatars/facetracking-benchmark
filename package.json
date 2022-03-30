@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
+    "dev": "nodemon server.js",
     "build": "vite build",
     "preview": "vite preview"
   },
@@ -11,12 +11,14 @@
     "@react-three/drei": "^8.20.2",
     "@react-three/fiber": "^7.0.26",
     "@react-three/xr": "^3.4.0",
+    "express": "^4.17.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "three": "^0.139.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^1.0.7",
+    "nodemon": "^2.0.15",
     "vite": "^2.8.0"
   }
 }

@@ -1,3 +1,3 @@
 export function App() {
-  return <Canvas></Canvas>
+  return <p>Hello world!</p>
 }
