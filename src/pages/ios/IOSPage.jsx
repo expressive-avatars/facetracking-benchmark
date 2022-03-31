@@ -5,8 +5,8 @@ import { ReadyPlayerMeAvatar } from "@/components/ReadyPlayerMeAvatar"
 
 import { useAspect } from "@/hooks/useAspect"
 import { Environment } from "@react-three/drei"
-import { useFacetracking } from "@/hooks/useFacetracking"
 import { ARManager } from "@/utils/ARManager"
+import { FacetrackingManager, useFacetracking } from "@/components/FacetrackingManager"
 
 export function IOSPage() {
   const [ar] = useState(() => new ARManager())
@@ -24,6 +24,7 @@ export function IOSPage() {
         <Scene />
         <Environment preset="apartment" background />
       </Suspense>
+      <FacetrackingManager />
     </ARCanvas>
   )
 }
@@ -31,10 +32,10 @@ export function IOSPage() {
 function Scene() {
   const aspect = useAspect()
   const landscape = aspect > 1
+  const ref = useRef()
   useFacetracking((blendShapes, headOrientation) => {
     ref.current.scale.setScalar(blendShapes["jawOpen"])
   })
-  const ref = useRef()
   return (
     <>
       <AttachToCamera>
