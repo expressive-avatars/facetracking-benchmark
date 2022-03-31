@@ -1,9 +1,9 @@
-import React, { Suspense, useReducer, useRef, useState } from "react"
+import { Suspense, useState } from "react"
 import { Environment } from "@react-three/drei"
 import { ARCanvas } from "@react-three/xr"
-import { AttachToCamera } from "@/components/AttachToCamera"
 
-import { FacetrackingManager, useFacetracking } from "@/components/FacetrackingManager"
+import { AttachToCamera } from "@/components/AttachToCamera"
+import { FacetrackingManager } from "@/components/FacetrackingManager"
 import { Background } from "@/components/Background"
 import { FaceMesh } from "@/components/FaceMesh"
 import { useAspect } from "@/hooks/useAspect"
