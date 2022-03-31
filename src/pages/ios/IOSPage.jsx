@@ -1,12 +1,13 @@
-import { Suspense, useReducer, useRef, useState } from "react"
+import React, { Suspense, useReducer, useRef, useState } from "react"
+import { Environment } from "@react-three/drei"
 import { ARCanvas } from "@react-three/xr"
 import { AttachToCamera } from "@/components/AttachToCamera"
-import { ReadyPlayerMeAvatar } from "@/components/ReadyPlayerMeAvatar"
 
-import { useAspect } from "@/hooks/useAspect"
-import { Environment } from "@react-three/drei"
-import { ARManager } from "@/utils/ARManager"
 import { FacetrackingManager, useFacetracking } from "@/components/FacetrackingManager"
+import { Background } from "@/components/Background"
+import { FaceMesh } from "@/components/FaceMesh"
+import { useAspect } from "@/hooks/useAspect"
+import { ARManager } from "@/utils/ARManager"
 
 export function IOSPage() {
   const [ar] = useState(() => new ARManager())
@@ -19,11 +20,12 @@ export function IOSPage() {
   }
 
   return (
-    <ARCanvas onCreated={onCreated}>
+    <ARCanvas onCreated={onCreated} camera={{ near: 0 }}>
       <Suspense fallback={null}>
         <Scene />
-        <Environment preset="apartment" background />
+        <Environment preset="apartment" />
       </Suspense>
+      <Background color="black" />
       <FacetrackingManager />
     </ARCanvas>
   )
@@ -32,18 +34,13 @@ export function IOSPage() {
 function Scene() {
   const aspect = useAspect()
   const landscape = aspect > 1
-  const ref = useRef()
-  useFacetracking((blendShapes, headOrientation) => {
-    ref.current.scale.setScalar(blendShapes["jawOpen"])
-  })
   return (
     <>
       <AttachToCamera>
-        <mesh ref={ref} position-z={landscape ? -6 : -5}>
-          <meshNormalMaterial />
-          <boxGeometry />
-        </mesh>
         <group position-z={landscape ? -6 : -5} scale={10}>
+          <group scale-x={-1}>
+            <FaceMesh />
+          </group>
           <group position={[0, -0.6, 0]} scale-x={-1}>
             {/* <ReadyPlayerMeAvatar
               path={"https://d1a370nemizbjq.cloudfront.net/b2572c50-a10a-42b6-ab30-694f60fed40f.glb"}

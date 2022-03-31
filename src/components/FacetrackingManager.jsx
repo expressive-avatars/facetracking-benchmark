@@ -4,6 +4,7 @@ import * as THREE from "three"
 
 import { useXRSession } from "@/hooks/useXRSession"
 import { useReferenceSpace } from "@/hooks/useReferenceSpace"
+import { remapBlendShapes } from "@/utils/blendShapes"
 
 const localHeadMatrix = new THREE.Matrix4()
 const viewerOrientation = new THREE.Quaternion()
@@ -31,7 +32,16 @@ export function FacetrackingManager() {
     const worldInfo = frame.worldInformation
     if (worldInfo.meshes && localReferenceSpace && viewerReferenceSpace) {
       worldInfo.meshes.forEach((worldMesh) => {
-        if (worldMesh.changed && worldMesh.blendShapes && worldMesh.modelMatrix) {
+        if (
+          worldMesh.changed &&
+          worldMesh.blendShapes &&
+          worldMesh.modelMatrix &&
+          worldMesh.vertexPositions &&
+          worldMesh.triangleIndices
+        ) {
+          const blendShapes = remapBlendShapes(worldMesh.blendShapes)
+          const { vertexPositions, triangleIndices } = worldMesh
+
           // Orient head using tracker result in local (physical) space
           localHeadMatrix.fromArray(worldMesh.modelMatrix)
           headOrientation.setFromRotationMatrix(localHeadMatrix)
@@ -49,7 +59,12 @@ export function FacetrackingManager() {
           headOrientation.setFromEuler(euler)
 
           subscribers.forEach((callbackFn) => {
-            callbackFn(worldMesh.blendShapes, headOrientation)
+            callbackFn({
+              blendShapes,
+              headOrientation,
+              vertexPositions,
+              triangleIndices,
+            })
           })
         }
       })
