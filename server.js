@@ -21,7 +21,7 @@ async function createServer() {
 
   if (process.env.NODE_ENV === "development") {
     const vite = await createViteServer({
-      server: { middlewareMode: "html" },
+      server: { middlewareMode: "html", hmr: { server } },
     })
     app.use(vite.middlewares)
   } else {
