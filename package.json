@@ -9,6 +9,7 @@
     "tunnel": "ngrok http 3000 --subdomain mattrossman --bind-tls true"
   },
   "dependencies": {
+    "@quarkworks-inc/avatar-webkit": "^0.5.1",
     "@react-three/drei": "^9.0.1",
     "@react-three/fiber": "^8.0.7",
     "@react-three/xr": "^3.3.0",

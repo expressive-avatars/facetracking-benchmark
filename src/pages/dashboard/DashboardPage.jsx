@@ -1,6 +1,6 @@
 import { Suspense, useLayoutEffect, useRef, useState } from "react"
 import { Canvas, useFrame, useThree } from "@react-three/fiber"
-import { Box, Environment } from "@react-three/drei"
+import { Box, Environment, Stats } from "@react-three/drei"
 import * as THREE from "three"
 import { useSearchParams } from "@/hooks/useSearchParams"
 import { HallwayBlendShapes } from "@/context/BlendShapes"
@@ -8,7 +8,7 @@ import { ReadyPlayerMeAvatar } from "@/components/dashboard/ReadyPlayerMeAvatar"
 
 const DEFAULT_AVATAR = "https://d1a370nemizbjq.cloudfront.net/b2572c50-a10a-42b6-ab30-694f60fed40f.glb"
 
-export function DesktopPage() {
+export function DashboardPage() {
   const onCreated = ({ gl }) => {
     gl.setScissorTest(true)
   }
@@ -16,6 +16,7 @@ export function DesktopPage() {
   const avatarURL = searchParams.get("avatarURL") ?? DEFAULT_AVATAR
   return (
     <Canvas camera={{ manual: true }} onCreated={onCreated}>
+      <Stats />
       <Suspense fallback={null}>
         <Environment preset="warehouse" background />
         <group position={[0, 0, 0]}>

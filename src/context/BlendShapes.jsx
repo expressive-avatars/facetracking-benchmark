@@ -32,17 +32,26 @@ export function HallwayBlendShapes({ children }) {
   const [listeners] = useState(() => new Set())
   useEffect(() => {
     const onMessage = (e) => {
-      /** @type {import("@quarkworks-inc/avatar-webkit").AvatarPrediction} */
-      const results = e.data
-      const { rotation, actionUnits: blendShapes } = results
+      const action = e.data
+      switch (action.type) {
+        case "log":
+          const message = action.payload
+          console.log(message)
+          break
+        case "results":
+          /** @type {import("@quarkworks-inc/avatar-webkit").AvatarPrediction} */
+          const results = action.payload
+          const { rotation, actionUnits: blendShapes } = results
 
-      const headRotation = [-rotation.pitch, rotation.yaw, -rotation.roll]
+          const headRotation = [-rotation.pitch, rotation.yaw, -rotation.roll]
 
-      const eyeRotationX = actionUnits["eyeLookDownRight"] * 0.5 - actionUnits["eyeLookUpRight"] * 0.5
-      const eyeRotationZ = actionUnits["eyeLookOutRight"] - actionUnits["eyeLookOutLeft"]
-      const eyeRotation = [eyeRotationX, 0, eyeRotationZ]
+          const eyeRotationX = blendShapes["eyeLookDownRight"] * 0.5 - blendShapes["eyeLookUpRight"] * 0.5
+          const eyeRotationZ = blendShapes["eyeLookOutRight"] - blendShapes["eyeLookOutLeft"]
+          const eyeRotation = [eyeRotationX, 0, eyeRotationZ]
 
-      listeners.forEach((fn) => fn({ blendShapes, headRotation, eyeRotation }))
+          listeners.forEach((fn) => fn({ blendShapes, headRotation, eyeRotation }))
+          break
+      }
     }
     bc.addEventListener("message", onMessage)
     return () => bc.removeEventListener("message", onMessage)

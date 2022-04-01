@@ -24,6 +24,9 @@ export default defineConfig({
       "@": resolve(__dirname, "src"),
     },
   },
+  define: {
+    AVATAR_WEBKIT_AUTH_TOKEN: `"${process.env.AVATAR_WEBKIT_AUTH_TOKEN}"`,
+  },
   server: {
     hmr: {
       clientPort: 443,
