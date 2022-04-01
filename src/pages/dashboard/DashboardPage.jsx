@@ -5,6 +5,7 @@ import * as THREE from "three"
 import { useSearchParams } from "@/hooks/useSearchParams"
 import { HallwayBlendShapes } from "@/context/BlendShapes"
 import { ReadyPlayerMeAvatar } from "@/components/dashboard/ReadyPlayerMeAvatar"
+import { Webcam } from "@/components/dashboard/Webcam"
 
 const DEFAULT_AVATAR = "https://d1a370nemizbjq.cloudfront.net/b2572c50-a10a-42b6-ab30-694f60fed40f.glb"
 
@@ -15,40 +16,43 @@ export function DashboardPage() {
   const searchParams = useSearchParams()
   const avatarURL = searchParams.get("avatarURL") ?? DEFAULT_AVATAR
   return (
-    <Canvas camera={{ manual: true }} onCreated={onCreated}>
-      <Stats />
-      <Suspense fallback={null}>
-        <Environment preset="warehouse" background />
-        <group position={[0, 0, 0]}>
-          <HallwayBlendShapes>
-            <group scale={7}>
-              <group position={[0, -0.6, 0]}>
-                <ReadyPlayerMeAvatar path={avatarURL} />
+    <>
+      <Webcam style={{ position: "absolute", zIndex: 1, width: "50vw", height: "50vh", objectFit: "cover" }} />
+      <Canvas camera={{ manual: true }} onCreated={onCreated}>
+        <Stats />
+        <Suspense fallback={null}>
+          <Environment preset="warehouse" background />
+          <group position={[0, 0, 0]}>
+            <HallwayBlendShapes>
+              <group scale={7}>
+                <group position={[0, -0.6, 0]}>
+                  <ReadyPlayerMeAvatar path={avatarURL} />
+                </group>
               </group>
-            </group>
-          </HallwayBlendShapes>
-        </group>
-        <Rotate position={[100, 0, 0]}>
-          <Box>
-            <meshStandardMaterial color="green" />
-          </Box>
-        </Rotate>
-        <Rotate position={[200, 0, 0]}>
-          <Box>
-            <meshStandardMaterial color="blue" />
-          </Box>
-        </Rotate>
-        <Rotate position={[300, 0, 0]}>
-          <Box>
-            <meshStandardMaterial color="yellow" />
-          </Box>
-        </Rotate>
-        <PerspectiveCameraView bounds={{ min: [0, 0], max: [0.5, 0.5] }} position={[0, 0, 5]} />
-        <PerspectiveCameraView bounds={{ min: [0.5, 0], max: [1, 0.5] }} position={[100, 0, 5]} />
-        <PerspectiveCameraView bounds={{ min: [0.5, 0.5], max: [1, 1] }} position={[200, 0, 5]} />
-        <PerspectiveCameraView bounds={{ min: [0, 0.5], max: [0.5, 1] }} position={[300, 0, 5]} />
-      </Suspense>
-    </Canvas>
+            </HallwayBlendShapes>
+          </group>
+          <Rotate position={[100, 0, 0]}>
+            <Box>
+              <meshStandardMaterial color="green" />
+            </Box>
+          </Rotate>
+          <Rotate position={[200, 0, 0]}>
+            <Box>
+              <meshStandardMaterial color="blue" />
+            </Box>
+          </Rotate>
+          <Rotate position={[300, 0, 0]}>
+            <Box>
+              <meshStandardMaterial color="yellow" />
+            </Box>
+          </Rotate>
+          <PerspectiveCameraView bounds={{ min: [0, 0], max: [0.5, 0.5] }} position={[0, 0, 5]} />
+          <PerspectiveCameraView bounds={{ min: [0.5, 0], max: [1, 0.5] }} position={[100, 0, 5]} />
+          <PerspectiveCameraView bounds={{ min: [0.5, 0.5], max: [1, 1] }} position={[200, 0, 5]} />
+          <PerspectiveCameraView bounds={{ min: [0, 0.5], max: [0.5, 1] }} position={[300, 0, 5]} />
+        </Suspense>
+      </Canvas>
+    </>
   )
 }
 
