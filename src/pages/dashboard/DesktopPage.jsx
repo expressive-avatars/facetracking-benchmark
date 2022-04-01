@@ -2,40 +2,51 @@ import { Suspense, useLayoutEffect, useRef, useState } from "react"
 import { Canvas, useFrame, useThree } from "@react-three/fiber"
 import { Box, Environment } from "@react-three/drei"
 import * as THREE from "three"
+import { useSearchParams } from "@/hooks/useSearchParams"
+import { HallwayBlendShapes } from "@/context/BlendShapes"
+import { ReadyPlayerMeAvatar } from "@/components/dashboard/ReadyPlayerMeAvatar"
+
+const DEFAULT_AVATAR = "https://d1a370nemizbjq.cloudfront.net/b2572c50-a10a-42b6-ab30-694f60fed40f.glb"
 
 export function DesktopPage() {
   const onCreated = ({ gl }) => {
     gl.setScissorTest(true)
   }
+  const searchParams = useSearchParams()
+  const avatarURL = searchParams.get("avatarURL") ?? DEFAULT_AVATAR
   return (
     <Canvas camera={{ manual: true }} onCreated={onCreated}>
       <Suspense fallback={null}>
         <Environment preset="warehouse" background />
+        <group position={[0, 0, 0]}>
+          <HallwayBlendShapes>
+            <group scale={7}>
+              <group position={[0, -0.6, 0]}>
+                <ReadyPlayerMeAvatar path={avatarURL} />
+              </group>
+            </group>
+          </HallwayBlendShapes>
+        </group>
+        <Rotate position={[100, 0, 0]}>
+          <Box>
+            <meshStandardMaterial color="green" />
+          </Box>
+        </Rotate>
+        <Rotate position={[200, 0, 0]}>
+          <Box>
+            <meshStandardMaterial color="blue" />
+          </Box>
+        </Rotate>
+        <Rotate position={[300, 0, 0]}>
+          <Box>
+            <meshStandardMaterial color="yellow" />
+          </Box>
+        </Rotate>
+        <PerspectiveCameraView bounds={{ min: [0, 0], max: [0.5, 0.5] }} position={[0, 0, 5]} />
+        <PerspectiveCameraView bounds={{ min: [0.5, 0], max: [1, 0.5] }} position={[100, 0, 5]} />
+        <PerspectiveCameraView bounds={{ min: [0.5, 0.5], max: [1, 1] }} position={[200, 0, 5]} />
+        <PerspectiveCameraView bounds={{ min: [0, 0.5], max: [0.5, 1] }} position={[300, 0, 5]} />
       </Suspense>
-      <Rotate position={[0, 0, 0]}>
-        <Box>
-          <meshStandardMaterial color="red" />
-        </Box>
-      </Rotate>
-      <Rotate position={[100, 0, 0]}>
-        <Box>
-          <meshStandardMaterial color="green" />
-        </Box>
-      </Rotate>
-      <Rotate position={[200, 0, 0]}>
-        <Box>
-          <meshStandardMaterial color="blue" />
-        </Box>
-      </Rotate>
-      <Rotate position={[300, 0, 0]}>
-        <Box>
-          <meshStandardMaterial color="yellow" />
-        </Box>
-      </Rotate>
-      <PerspectiveCameraView bounds={{ min: [0, 0], max: [0.5, 0.5] }} position={[0, 0, 5]} />
-      <PerspectiveCameraView bounds={{ min: [0.5, 0], max: [1, 0.5] }} position={[100, 0, 5]} />
-      <PerspectiveCameraView bounds={{ min: [0.5, 0.5], max: [1, 1] }} position={[200, 0, 5]} />
-      <PerspectiveCameraView bounds={{ min: [0, 0.5], max: [0.5, 1] }} position={[300, 0, 5]} />
     </Canvas>
   )
 }

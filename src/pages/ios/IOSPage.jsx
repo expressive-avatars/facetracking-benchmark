@@ -2,11 +2,11 @@ import { Suspense, useState } from "react"
 import { Environment } from "@react-three/drei"
 import { ARCanvas } from "@react-three/xr"
 
-import { AttachToCamera } from "@/components/AttachToCamera"
-import { FacetrackingManager } from "@/components/FacetrackingManager"
-import { Background } from "@/components/Background"
-import { FaceMesh } from "@/components/FaceMesh"
-import { useAspect } from "@/hooks/useAspect"
+import { AttachToCamera } from "@/components/ios/AttachToCamera"
+import { FacetrackingManager } from "@/components/ios/FacetrackingManager"
+import { Background } from "@/components/shared/Background"
+import { FaceMesh } from "@/components/ios/FaceMesh"
+import { useAspect } from "@/hooks/ios/useAspect"
 import { ARManager } from "@/utils/ARManager"
 
 export function IOSPage() {

@@ -2,8 +2,8 @@ import { useEffect, useState } from "react"
 import { useXRFrame } from "@react-three/xr"
 import * as THREE from "three"
 
-import { useXRSession } from "@/hooks/useXRSession"
-import { useReferenceSpace } from "@/hooks/useReferenceSpace"
+import { useXRSession } from "@/hooks/ios/useXRSession"
+import { useReferenceSpace } from "@/hooks/ios/useReferenceSpace"
 import { remapBlendShapes } from "@/utils/blendShapes"
 
 const localHeadMatrix = new THREE.Matrix4()
