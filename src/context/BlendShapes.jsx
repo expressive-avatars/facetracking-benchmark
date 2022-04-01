@@ -39,6 +39,7 @@ export function HallwayBlendShapes({ children }) {
           console.log(message)
           break
         case "results":
+          console.log("results")
           /** @type {import("@quarkworks-inc/avatar-webkit").AvatarPrediction} */
           const results = action.payload
           const { rotation, actionUnits: blendShapes } = results
@@ -56,5 +57,8 @@ export function HallwayBlendShapes({ children }) {
     bc.addEventListener("message", onMessage)
     return () => bc.removeEventListener("message", onMessage)
   }, [bc, listeners])
+  useEffect(() => {
+    return () => bc.close()
+  }, [])
   return <BlendShapesContext.Provider value={{ listeners }}>{children}</BlendShapesContext.Provider>
 }

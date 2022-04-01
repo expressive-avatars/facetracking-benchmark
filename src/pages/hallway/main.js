@@ -47,13 +47,21 @@ let predictor = new AUPredictor({
 
 const worker = new SleepWorker()
 
+let timeout
+
+async function doPredict(cb) {
+  await predictor.predict(videoEl)
+  cb && cb()
+  if (timeout) clearTimeout(timeout)
+  setTimeout(doPredict, 500) // Retry in a bit in case camera is obscured
+}
+
 worker.onmessage = () => {
-  predictor.predict(videoEl)
+  doPredict()
 }
 
 predictor.dataStream.subscribe((results) => {
   bc.postMessage({ type: "results", payload: results })
-  // console.log(results.actionUnits.jawOpen)
   worker.postMessage(1000 / FPS)
 })
 
@@ -61,7 +69,7 @@ statusEl.textContent = "Initializing model..."
 document.title = "🟠 Hallway Tracker"
 
 // Start prediction loop
-predictor.predict(videoEl).then(() => {
+doPredict(() => {
   statusEl.textContent = "Tracking started"
   document.title = "🟢 Hallway Tracker"
   console.log("initialized")
