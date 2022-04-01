@@ -5,17 +5,27 @@
     <link rel="icon" type="image/svg+xml" href="/src/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite App</title>
+    <style>
+      html,
+      body,
+      #root {
+        height: 100%;
+        margin: 0;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>
     <script type="module">
       import React from "react"
-      import ReactDOM from "react-dom"
+      import ReactDOM from "react-dom/client"
       import { DesktopPage } from "./DesktopPage"
 
       const h = React.createElement
 
-      ReactDOM.render(h(React.StrictMode, null, h(DesktopPage)), document.getElementById("root"))
+      const root = ReactDOM.createRoot(document.getElementById("root"))
+
+      root.render(h(React.StrictMode, null, h(DesktopPage)))
     </script>
   </body>
 </html>
