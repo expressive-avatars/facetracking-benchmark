@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "NODE_ENV=development nodemon server.js",
+    "dev": "NODE_ENV=development nodemon server.js --ignore src",
     "build": "vite build",
     "start": "NODE_ENV=production node server.js",
     "tunnel": "ngrok http 3000 --subdomain mattrossman --bind-tls true"
