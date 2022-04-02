@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useXRFrame } from "@react-three/xr"
 import * as THREE from "three"
+import io from "socket.io-client"
 
 import { useXRSession } from "@/hooks/ios/useXRSession"
 import { useReferenceSpace } from "@/hooks/ios/useReferenceSpace"
@@ -14,6 +15,8 @@ const subscribers = new Set()
 
 export function FacetrackingManager() {
   const [headOrientation] = useState(() => new THREE.Quaternion())
+
+  const [socket] = useState(() => io())
 
   useXRSession((session) => {
     if (session) {
@@ -58,14 +61,18 @@ export function FacetrackingManager() {
           euler.z = -euler.z
           headOrientation.setFromEuler(euler)
 
+          const payload = {
+            blendShapes,
+            headOrientation,
+            vertexPositions,
+            triangleIndices,
+          }
+
           subscribers.forEach((callbackFn) => {
-            callbackFn({
-              blendShapes,
-              headOrientation,
-              vertexPositions,
-              triangleIndices,
-            })
+            callbackFn(payload)
           })
+
+          socket.emit("results", payload)
         }
       })
     }

@@ -1,4 +1,4 @@
-import { useBlendShapes } from "@/context/BlendShapes"
+import { useBlendShapes } from "@/context/Facetracking"
 import { useGLTF } from "@react-three/drei"
 import { useMemo } from "react"
 import * as THREE from "three"

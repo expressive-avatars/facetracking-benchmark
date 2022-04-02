@@ -17,6 +17,11 @@ async function createServer() {
   io.on("connection", (socket) => {
     console.log("a user connected")
     socket.on("message", (message) => console.log(`[${socket.id}]`, message))
+
+    // Received iOS tracking results
+    socket.on("results", (results) => {
+      io.of("/dashboard").emit("iosResults", results)
+    })
   })
 
   if (process.env.NODE_ENV === "development") {

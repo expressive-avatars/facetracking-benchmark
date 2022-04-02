@@ -3,7 +3,7 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber"
 import { Box, Environment, Stats } from "@react-three/drei"
 import * as THREE from "three"
 import { useSearchParams } from "@/hooks/useSearchParams"
-import { HallwayBlendShapes } from "@/context/BlendShapes"
+import { HallwayProvider } from "@/context/Facetracking"
 import { ReadyPlayerMeAvatar } from "@/components/dashboard/ReadyPlayerMeAvatar"
 import { Webcam } from "@/components/dashboard/Webcam"
 
@@ -23,13 +23,13 @@ export function DashboardPage() {
         <Suspense fallback={null}>
           <Environment preset="warehouse" background />
           <group position={[0, 0, 0]}>
-            <HallwayBlendShapes>
+            <HallwayProvider>
               <group scale={7}>
                 <group position={[0, -0.6, 0]}>
                   <ReadyPlayerMeAvatar path={avatarURL} />
                 </group>
               </group>
-            </HallwayBlendShapes>
+            </HallwayProvider>
           </group>
           <Rotate position={[100, 0, 0]}>
             <Box>
