@@ -4,34 +4,35 @@ import { useRef } from "react"
 import { useFacetracking } from "./FacetrackingManager"
 
 export function FaceMesh() {
+  /** @type {React.RefObject<THREE.Mesh>} */
   const mesh = useRef()
 
-  /** @type {React.RefObject<THREE.BufferGeometry>} */
-  const geometry = useRef()
-  useFacetracking(({ headOrientation, vertexPositions, triangleIndices }) => {
-    mesh.current.quaternion.copy(headOrientation)
+  useFacetracking(({ headRotation, vertexPositions, triangleIndices }) => {
+    mesh.current.rotation.fromArray(headRotation)
 
-    let position = geometry.current.attributes.position
-    let index = geometry.current.index
+    const geometry = mesh.current.geometry
+
+    let position = geometry.attributes.position
+    let index = geometry.index
 
     if (position && index) {
       position.copyArray(vertexPositions)
       index.copyArray(triangleIndices)
       position.needsUpdate = index.needsUpdate = true
-      geometry.current.computeVertexNormals()
+      geometry.computeVertexNormals()
     } else {
       position = new THREE.BufferAttribute(vertexPositions, 3)
       index = new THREE.BufferAttribute(triangleIndices, 1)
       position.usage = index.usage = THREE.DynamicDrawUsage
-      geometry.current.setAttribute("position", position)
-      geometry.current.setIndex(index)
-      geometry.current.computeVertexNormals()
+      geometry.setAttribute("position", position)
+      geometry.setIndex(index)
+      geometry.computeVertexNormals()
     }
   })
   return (
     <mesh ref={mesh} frustumCulled={false}>
       <meshStandardMaterial color="white" metalness={1} roughness={0.2} side={THREE.DoubleSide} />
-      <bufferGeometry ref={geometry} />
+      <bufferGeometry />
     </mesh>
   )
 }

@@ -59,11 +59,16 @@ export function FacetrackingManager() {
           euler.setFromQuaternion(headOrientation)
           euler.y = -euler.y
           euler.z = -euler.z
-          headOrientation.setFromEuler(euler)
+
+          const headRotation = euler.toArray()
+          const eyeRotationX = blendShapes["eyeLookDownRight"] * 0.5 - blendShapes["eyeLookUpRight"] * 0.5
+          const eyeRotationZ = blendShapes["eyeLookOutRight"] - blendShapes["eyeLookOutLeft"]
+          const eyeRotation = [eyeRotationX, 0, eyeRotationZ]
 
           const payload = {
             blendShapes,
-            headOrientation,
+            headRotation,
+            eyeRotation,
             vertexPositions,
             triangleIndices,
           }
