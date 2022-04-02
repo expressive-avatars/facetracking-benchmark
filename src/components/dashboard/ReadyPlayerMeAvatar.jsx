@@ -45,5 +45,5 @@ export function ReadyPlayerMeAvatar({ path }) {
     bones.eyeL.rotation.copy(bones.eyeR.rotation)
   })
 
-  return <primitive object={scene} />
+  return <primitive object={scene} dispose={null} />
 }

@@ -20,7 +20,7 @@ async function createServer() {
 
     // Received iOS tracking results
     socket.on("results", (results) => {
-      io.of("/dashboard").emit("iosResults", results)
+      io.of("/dashboard").volatile.emit("iosResults", results)
     })
   })
 

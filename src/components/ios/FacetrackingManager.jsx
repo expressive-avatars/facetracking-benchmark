@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useXRFrame } from "@react-three/xr"
 import * as THREE from "three"
 import io from "socket.io-client"
@@ -31,6 +31,9 @@ export function FacetrackingManager() {
   const localReferenceSpace = useReferenceSpace("local")
   const viewerReferenceSpace = useReferenceSpace("viewer")
 
+  const lastEmittedMs = useRef(0)
+  const timeoutMs = 40
+
   useXRFrame((time, frame) => {
     const worldInfo = frame.worldInformation
     if (worldInfo.meshes && localReferenceSpace && viewerReferenceSpace) {
@@ -43,6 +46,8 @@ export function FacetrackingManager() {
           worldMesh.triangleIndices
         ) {
           const blendShapes = remapBlendShapes(worldMesh.blendShapes)
+
+          /** @type {{ vertexPositions: Float32Array, triangleIndices: Uint32Array }} */
           const { vertexPositions, triangleIndices } = worldMesh
 
           // Orient head using tracker result in local (physical) space
@@ -77,7 +82,10 @@ export function FacetrackingManager() {
             callbackFn(payload)
           })
 
-          socket.emit("results", payload)
+          if (time - lastEmittedMs.current > timeoutMs) {
+            lastEmittedMs.current = time
+            socket.volatile.emit("results", payload)
+          }
         }
       })
     }

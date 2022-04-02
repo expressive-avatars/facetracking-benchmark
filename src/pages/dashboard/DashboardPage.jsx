@@ -3,9 +3,10 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber"
 import { Box, Environment, Stats } from "@react-three/drei"
 import * as THREE from "three"
 import { useSearchParams } from "@/hooks/useSearchParams"
-import { HallwayProvider } from "@/context/Facetracking"
+import { HallwayProvider, IOSProvider } from "@/context/Facetracking"
 import { ReadyPlayerMeAvatar } from "@/components/dashboard/ReadyPlayerMeAvatar"
 import { Webcam } from "@/components/dashboard/Webcam"
+import { FaceMesh } from "@/components/dashboard/FaceMesh"
 
 const DEFAULT_AVATAR = "https://d1a370nemizbjq.cloudfront.net/b2572c50-a10a-42b6-ab30-694f60fed40f.glb"
 
@@ -22,7 +23,32 @@ export function DashboardPage() {
         <Stats />
         <Suspense fallback={null}>
           <Environment preset="warehouse" background />
-          <group position={[0, 0, 0]}>
+
+          {/* BOTTOM LEFT */}
+          <group>
+            <PerspectiveCameraView bounds={{ min: [0, 0], max: [0.5, 0.5] }} position={[0, 0, 5]} />
+            <IOSProvider>
+              <group scale={10}>
+                <FaceMesh />
+              </group>
+            </IOSProvider>
+          </group>
+
+          {/* BOTTOM RIGHT */}
+          <group position={[100, 0, 0]}>
+            <PerspectiveCameraView bounds={{ min: [0.5, 0], max: [1, 0.5] }} position={[0, 0, 5]} />
+            <IOSProvider>
+              <group scale={7}>
+                <group position={[0, -0.6, 0]}>
+                  <ReadyPlayerMeAvatar path={avatarURL} />
+                </group>
+              </group>
+            </IOSProvider>
+          </group>
+
+          {/* TOP RIGHT */}
+          <group position={[200, 0, 0]}>
+            <PerspectiveCameraView bounds={{ min: [0.5, 0.5], max: [1, 1] }} position={[0, 0, 5]} />
             <HallwayProvider>
               <group scale={7}>
                 <group position={[0, -0.6, 0]}>
@@ -31,25 +57,6 @@ export function DashboardPage() {
               </group>
             </HallwayProvider>
           </group>
-          <Rotate position={[100, 0, 0]}>
-            <Box>
-              <meshStandardMaterial color="green" />
-            </Box>
-          </Rotate>
-          <Rotate position={[200, 0, 0]}>
-            <Box>
-              <meshStandardMaterial color="blue" />
-            </Box>
-          </Rotate>
-          <Rotate position={[300, 0, 0]}>
-            <Box>
-              <meshStandardMaterial color="yellow" />
-            </Box>
-          </Rotate>
-          <PerspectiveCameraView bounds={{ min: [0, 0], max: [0.5, 0.5] }} position={[0, 0, 5]} />
-          <PerspectiveCameraView bounds={{ min: [0.5, 0], max: [1, 0.5] }} position={[100, 0, 5]} />
-          <PerspectiveCameraView bounds={{ min: [0.5, 0.5], max: [1, 1] }} position={[200, 0, 5]} />
-          <PerspectiveCameraView bounds={{ min: [0, 0.5], max: [0.5, 1] }} position={[300, 0, 5]} />
         </Suspense>
       </Canvas>
     </>

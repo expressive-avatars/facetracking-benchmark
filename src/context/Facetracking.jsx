@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react"
+import io from "socket.io-client"
 
 const FacetrackingContext = createContext()
 
@@ -17,24 +18,33 @@ export const useBlendShapes = (fn) => {
 
 /**
  *
- * @param {(args: {vertexPositions: number[], triangleIndices: number[], headRotation: number[] }) => void} fn
+ * @param {(args: {vertexPositions: ArrayBuffer, triangleIndices: ArrayBuffer, headRotation: number[] }) => void} fn
  */
 export const useFaceMesh = (fn) => {
   const { faceMeshListeners } = useContext(FacetrackingContext)
   useEffect(() => {
     if (!faceMeshListeners) throw new Error("Context does not support faceMeshListeners")
+    console.log("adding useFaceMesh listener")
     faceMeshListeners.add(fn)
     return () => faceMeshListeners.delete(fn)
   }, [fn, faceMeshListeners])
 }
 
+let flag = false
+
 export function IOSProvider({ children }) {
-  const [socket] = useState(() => io())
+  const [socket] = useState(() => io("/dashboard"))
   const [[blendShapeListeners, faceMeshListeners]] = useState(() => [new Set(), new Set()])
   useEffect(() => {
-    socket.on("iosResults", ({ blendShapes, headRotation, eyeRotation }) => {
+    socket.on("iosResults", ({ blendShapes, headRotation, eyeRotation, vertexPositions, triangleIndices }) => {
       blendShapeListeners.forEach((fn) => fn({ blendShapes, headRotation, eyeRotation }))
-      faceMeshListeners.forEach((fn) => fn({ vertexPositions, triangleIndices, headRotation }))
+      faceMeshListeners.forEach((fn) =>
+        fn({
+          vertexPositions: new Float32Array(vertexPositions),
+          triangleIndices: new Uint32Array(triangleIndices),
+          headRotation,
+        })
+      )
     })
   }, [socket, blendShapeListeners, faceMeshListeners])
   return (
