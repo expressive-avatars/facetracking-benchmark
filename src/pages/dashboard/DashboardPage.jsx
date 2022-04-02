@@ -24,39 +24,37 @@ export function DashboardPage() {
         <Suspense fallback={null}>
           <Environment preset="warehouse" background />
 
-          {/* BOTTOM LEFT */}
-          <group>
-            <PerspectiveCameraView bounds={{ min: [0, 0], max: [0.5, 0.5] }} position={[0, 0, 5]} />
-            <IOSProvider>
+          <IOSProvider>
+            {/* BOTTOM LEFT */}
+            <group>
+              <PerspectiveCameraView bounds={{ min: [0, 0], max: [0.5, 0.5] }} position={[0, 0, 5]} />
               <group scale={10}>
                 <FaceMesh />
               </group>
-            </IOSProvider>
-          </group>
+            </group>
 
-          {/* BOTTOM RIGHT */}
-          <group position={[100, 0, 0]}>
-            <PerspectiveCameraView bounds={{ min: [0.5, 0], max: [1, 0.5] }} position={[0, 0, 5]} />
-            <IOSProvider>
+            {/* BOTTOM RIGHT */}
+            <group position={[100, 0, 0]}>
+              <PerspectiveCameraView bounds={{ min: [0.5, 0], max: [1, 0.5] }} position={[0, 0, 5]} />
               <group scale={7}>
                 <group position={[0, -0.6, 0]}>
                   <ReadyPlayerMeAvatar path={avatarURL} />
                 </group>
               </group>
-            </IOSProvider>
-          </group>
+            </group>
+          </IOSProvider>
 
-          {/* TOP RIGHT */}
-          <group position={[200, 0, 0]}>
-            <PerspectiveCameraView bounds={{ min: [0.5, 0.5], max: [1, 1] }} position={[0, 0, 5]} />
-            <HallwayProvider>
+          <HallwayProvider>
+            {/* TOP RIGHT */}
+            <group position={[200, 0, 0]}>
+              <PerspectiveCameraView bounds={{ min: [0.5, 0.5], max: [1, 1] }} position={[0, 0, 5]} />
               <group scale={7}>
                 <group position={[0, -0.6, 0]}>
                   <ReadyPlayerMeAvatar path={avatarURL} />
                 </group>
               </group>
-            </HallwayProvider>
-          </group>
+            </group>
+          </HallwayProvider>
         </Suspense>
       </Canvas>
     </>

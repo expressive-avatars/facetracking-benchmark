@@ -1,10 +1,14 @@
 import { useBlendShapes } from "@/context/Facetracking"
 import { useGLTF } from "@react-three/drei"
+import { useGraph } from "@react-three/fiber"
 import { useMemo } from "react"
 import * as THREE from "three"
+import * as SkeletonUtils from "three/examples/jsm/utils/SkeletonUtils"
 
 export function ReadyPlayerMeAvatar({ path }) {
-  const { scene, nodes } = useGLTF(path)
+  const { scene } = useGLTF(path)
+  const clone = useMemo(() => SkeletonUtils.clone(scene), [scene])
+  const { nodes } = useGraph(clone)
 
   /**
    * @type {{
@@ -20,13 +24,13 @@ export function ReadyPlayerMeAvatar({ path }) {
     }
 
     const meshes = []
-    scene.traverse((object) => {
+    clone.traverse((object) => {
       if (object.isMesh && object.morphTargetInfluences?.length > 0) {
         meshes.push(object)
       }
     })
     return { bones, meshes }
-  }, [path])
+  }, [nodes])
 
   useBlendShapes(({ blendShapes, eyeRotation, headRotation }) => {
     // Update bones
@@ -45,5 +49,5 @@ export function ReadyPlayerMeAvatar({ path }) {
     bones.eyeL.rotation.copy(bones.eyeR.rotation)
   })
 
-  return <primitive object={scene} dispose={null} />
+  return <primitive object={clone} />
 }
