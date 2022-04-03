@@ -1,0 +1,486 @@
+{
+  "meta": { "source": "avatar_listings", "next_cursor": 3 },
+  "entries": [
+    {
+      "allow_remixing": false,
+      "attributions": {},
+      "description": null,
+      "gltfs": {
+        "avatar": "https://hubs.aelatgt.net/api/v1/avatars/0hNhLaj/avatar.gltf?v=63809046738",
+        "base": "https://hubs.aelatgt.net/api/v1/avatars/0hNhLaj/base.gltf?v=63809046738"
+      },
+      "id": "0hNhLaj",
+      "images": {
+        "preview": {
+          "height": 1280,
+          "url": "https://gt-ael-aq-assets.aelatgt-internal.net/files/c13ea83a-60b2-48dd-bf07-3b5cbcd9855b.png",
+          "width": 720
+        }
+      },
+      "name": "avatar-16",
+      "type": "avatar_listing",
+      "url": "https://hubs.aelatgt.net/avatars/0hNhLaj"
+    },
+    {
+      "allow_remixing": false,
+      "attributions": {},
+      "description": null,
+      "gltfs": {
+        "avatar": "https://hubs.aelatgt.net/api/v1/avatars/W9RbUn0/avatar.gltf?v=63809046727",
+        "base": "https://hubs.aelatgt.net/api/v1/avatars/W9RbUn0/base.gltf?v=63809046727"
+      },
+      "id": "W9RbUn0",
+      "images": {
+        "preview": {
+          "height": 1280,
+          "url": "https://gt-ael-aq-assets.aelatgt-internal.net/files/2d716b5c-96c0-4ec6-83a2-f5160524b1c5.png",
+          "width": 720
+        }
+      },
+      "name": "avatar-15",
+      "type": "avatar_listing",
+      "url": "https://hubs.aelatgt.net/avatars/W9RbUn0"
+    },
+    {
+      "allow_remixing": false,
+      "attributions": {},
+      "description": null,
+      "gltfs": {
+        "avatar": "https://hubs.aelatgt.net/api/v1/avatars/X6momF2/avatar.gltf?v=63809046726",
+        "base": "https://hubs.aelatgt.net/api/v1/avatars/X6momF2/base.gltf?v=63809046726"
+      },
+      "id": "X6momF2",
+      "images": {
+        "preview": {
+          "height": 1280,
+          "url": "https://gt-ael-aq-assets.aelatgt-internal.net/files/9e4cd69f-3306-4c83-b6dc-2e551d91b719.png",
+          "width": 720
+        }
+      },
+      "name": "avatar-13",
+      "type": "avatar_listing",
+      "url": "https://hubs.aelatgt.net/avatars/X6momF2"
+    },
+    {
+      "allow_remixing": false,
+      "attributions": {},
+      "description": null,
+      "gltfs": {
+        "avatar": "https://hubs.aelatgt.net/api/v1/avatars/Dm8wDD5/avatar.gltf?v=63809046726",
+        "base": "https://hubs.aelatgt.net/api/v1/avatars/Dm8wDD5/base.gltf?v=63809046726"
+      },
+      "id": "Dm8wDD5",
+      "images": {
+        "preview": {
+          "height": 1280,
+          "url": "https://gt-ael-aq-assets.aelatgt-internal.net/files/c2c19cd1-8c7f-4e3e-acaa-9662e72e5002.png",
+          "width": 720
+        }
+      },
+      "name": "avatar-14",
+      "type": "avatar_listing",
+      "url": "https://hubs.aelatgt.net/avatars/Dm8wDD5"
+    },
+    {
+      "allow_remixing": false,
+      "attributions": {},
+      "description": null,
+      "gltfs": {
+        "avatar": "https://hubs.aelatgt.net/api/v1/avatars/x2m2gP9/avatar.gltf?v=63809046722",
+        "base": "https://hubs.aelatgt.net/api/v1/avatars/x2m2gP9/base.gltf?v=63809046722"
+      },
+      "id": "x2m2gP9",
+      "images": {
+        "preview": {
+          "height": 1280,
+          "url": "https://gt-ael-aq-assets.aelatgt-internal.net/files/5e848cb5-d7fc-461a-989b-df1f5ef07c89.png",
+          "width": 720
+        }
+      },
+      "name": "avatar-12",
+      "type": "avatar_listing",
+      "url": "https://hubs.aelatgt.net/avatars/x2m2gP9"
+    },
+    {
+      "allow_remixing": false,
+      "attributions": {},
+      "description": null,
+      "gltfs": {
+        "avatar": "https://hubs.aelatgt.net/api/v1/avatars/TFtQ44b/avatar.gltf?v=63809046721",
+        "base": "https://hubs.aelatgt.net/api/v1/avatars/TFtQ44b/base.gltf?v=63809046721"
+      },
+      "id": "TFtQ44b",
+      "images": {
+        "preview": {
+          "height": 1280,
+          "url": "https://gt-ael-aq-assets.aelatgt-internal.net/files/4dda03c0-b017-41ad-9b75-3165f0d7aa1c.png",
+          "width": 720
+        }
+      },
+      "name": "avatar-11",
+      "type": "avatar_listing",
+      "url": "https://hubs.aelatgt.net/avatars/TFtQ44b"
+    },
+    {
+      "allow_remixing": false,
+      "attributions": {},
+      "description": null,
+      "gltfs": {
+        "avatar": "https://hubs.aelatgt.net/api/v1/avatars/fHsZKTn/avatar.gltf?v=63809046716",
+        "base": "https://hubs.aelatgt.net/api/v1/avatars/fHsZKTn/base.gltf?v=63809046716"
+      },
+      "id": "fHsZKTn",
+      "images": {
+        "preview": {
+          "height": 1280,
+          "url": "https://gt-ael-aq-assets.aelatgt-internal.net/files/3d359879-e445-4719-8863-b35a6c26f77c.png",
+          "width": 720
+        }
+      },
+      "name": "avatar-10",
+      "type": "avatar_listing",
+      "url": "https://hubs.aelatgt.net/avatars/fHsZKTn"
+    },
+    {
+      "allow_remixing": false,
+      "attributions": {},
+      "description": null,
+      "gltfs": {
+        "avatar": "https://hubs.aelatgt.net/api/v1/avatars/1Bwz00O/avatar.gltf?v=63809046715",
+        "base": "https://hubs.aelatgt.net/api/v1/avatars/1Bwz00O/base.gltf?v=63809046715"
+      },
+      "id": "1Bwz00O",
+      "images": {
+        "preview": {
+          "height": 1280,
+          "url": "https://gt-ael-aq-assets.aelatgt-internal.net/files/c226538d-6de6-4b13-8e17-e67ad075cdc9.png",
+          "width": 720
+        }
+      },
+      "name": "avatar-9",
+      "type": "avatar_listing",
+      "url": "https://hubs.aelatgt.net/avatars/1Bwz00O"
+    },
+    {
+      "allow_remixing": false,
+      "attributions": { "creator": "" },
+      "description": null,
+      "gltfs": {
+        "avatar": "https://hubs.aelatgt.net/api/v1/avatars/TQUSwFL/avatar.gltf?v=63809046711",
+        "base": "https://hubs.aelatgt.net/api/v1/avatars/TQUSwFL/base.gltf?v=63809046711"
+      },
+      "id": "TQUSwFL",
+      "images": {
+        "preview": {
+          "height": 1280,
+          "url": "https://gt-ael-aq-assets.aelatgt-internal.net/files/c2fd6e82-3acc-4351-8136-951100e3377a.png",
+          "width": 720
+        }
+      },
+      "name": "avatar-8",
+      "type": "avatar_listing",
+      "url": "https://hubs.aelatgt.net/avatars/TQUSwFL"
+    },
+    {
+      "allow_remixing": false,
+      "attributions": {},
+      "description": null,
+      "gltfs": {
+        "avatar": "https://hubs.aelatgt.net/api/v1/avatars/xHtN42n/avatar.gltf?v=63809046709",
+        "base": "https://hubs.aelatgt.net/api/v1/avatars/xHtN42n/base.gltf?v=63809046709"
+      },
+      "id": "xHtN42n",
+      "images": {
+        "preview": {
+          "height": 1280,
+          "url": "https://gt-ael-aq-assets.aelatgt-internal.net/files/e658e417-9aae-46da-a17f-d70a87123b5a.png",
+          "width": 720
+        }
+      },
+      "name": "avatar-7",
+      "type": "avatar_listing",
+      "url": "https://hubs.aelatgt.net/avatars/xHtN42n"
+    },
+    {
+      "allow_remixing": false,
+      "attributions": {},
+      "description": null,
+      "gltfs": {
+        "avatar": "https://hubs.aelatgt.net/api/v1/avatars/CgcAt05/avatar.gltf?v=63809046705",
+        "base": "https://hubs.aelatgt.net/api/v1/avatars/CgcAt05/base.gltf?v=63809046705"
+      },
+      "id": "CgcAt05",
+      "images": {
+        "preview": {
+          "height": 1280,
+          "url": "https://gt-ael-aq-assets.aelatgt-internal.net/files/c9642104-7c35-4fac-8553-09cfc753622e.png",
+          "width": 720
+        }
+      },
+      "name": "avatar-6",
+      "type": "avatar_listing",
+      "url": "https://hubs.aelatgt.net/avatars/CgcAt05"
+    },
+    {
+      "allow_remixing": false,
+      "attributions": {},
+      "description": null,
+      "gltfs": {
+        "avatar": "https://hubs.aelatgt.net/api/v1/avatars/1ibga9t/avatar.gltf?v=63809046702",
+        "base": "https://hubs.aelatgt.net/api/v1/avatars/1ibga9t/base.gltf?v=63809046702"
+      },
+      "id": "1ibga9t",
+      "images": {
+        "preview": {
+          "height": 1280,
+          "url": "https://gt-ael-aq-assets.aelatgt-internal.net/files/0e7e41a3-d733-48d5-a6ac-a7e242976fe4.png",
+          "width": 720
+        }
+      },
+      "name": "avatar-5",
+      "type": "avatar_listing",
+      "url": "https://hubs.aelatgt.net/avatars/1ibga9t"
+    },
+    {
+      "allow_remixing": false,
+      "attributions": {},
+      "description": null,
+      "gltfs": {
+        "avatar": "https://hubs.aelatgt.net/api/v1/avatars/zDtYJOJ/avatar.gltf?v=63809046692",
+        "base": "https://hubs.aelatgt.net/api/v1/avatars/zDtYJOJ/base.gltf?v=63809046692"
+      },
+      "id": "zDtYJOJ",
+      "images": {
+        "preview": {
+          "height": 1280,
+          "url": "https://gt-ael-aq-assets.aelatgt-internal.net/files/1a694a27-318c-4531-bc16-a70b92783d66.png",
+          "width": 720
+        }
+      },
+      "name": "avatar-4",
+      "type": "avatar_listing",
+      "url": "https://hubs.aelatgt.net/avatars/zDtYJOJ"
+    },
+    {
+      "allow_remixing": false,
+      "attributions": {},
+      "description": null,
+      "gltfs": {
+        "avatar": "https://hubs.aelatgt.net/api/v1/avatars/Nbpt8Io/avatar.gltf?v=63809046688",
+        "base": "https://hubs.aelatgt.net/api/v1/avatars/Nbpt8Io/base.gltf?v=63809046688"
+      },
+      "id": "Nbpt8Io",
+      "images": {
+        "preview": {
+          "height": 1280,
+          "url": "https://gt-ael-aq-assets.aelatgt-internal.net/files/4efbdecd-236b-428f-9751-4f431a2e4184.png",
+          "width": 720
+        }
+      },
+      "name": "avatar-3",
+      "type": "avatar_listing",
+      "url": "https://hubs.aelatgt.net/avatars/Nbpt8Io"
+    },
+    {
+      "allow_remixing": false,
+      "attributions": {},
+      "description": null,
+      "gltfs": {
+        "avatar": "https://hubs.aelatgt.net/api/v1/avatars/ARaWzyW/avatar.gltf?v=63809046683",
+        "base": "https://hubs.aelatgt.net/api/v1/avatars/ARaWzyW/base.gltf?v=63809046683"
+      },
+      "id": "ARaWzyW",
+      "images": {
+        "preview": {
+          "height": 1280,
+          "url": "https://gt-ael-aq-assets.aelatgt-internal.net/files/592c733b-c0c0-40fd-b76c-42d07dd854a0.png",
+          "width": 720
+        }
+      },
+      "name": "avatar-2",
+      "type": "avatar_listing",
+      "url": "https://hubs.aelatgt.net/avatars/ARaWzyW"
+    },
+    {
+      "allow_remixing": false,
+      "attributions": { "creator": "" },
+      "description": null,
+      "gltfs": {
+        "avatar": "https://hubs.aelatgt.net/api/v1/avatars/u0ORoxP/avatar.gltf?v=63809046012",
+        "base": "https://hubs.aelatgt.net/api/v1/avatars/u0ORoxP/base.gltf?v=63809046012"
+      },
+      "id": "u0ORoxP",
+      "images": {
+        "preview": {
+          "height": 1280,
+          "url": "https://gt-ael-aq-assets.aelatgt-internal.net/files/e101d7d2-df82-4af8-a6fc-f1d84edca021.png",
+          "width": 720
+        }
+      },
+      "name": "avatar-1",
+      "type": "avatar_listing",
+      "url": "https://hubs.aelatgt.net/avatars/u0ORoxP"
+    },
+    {
+      "allow_remixing": true,
+      "attributions": {},
+      "description": null,
+      "gltfs": {
+        "avatar": "https://hubs.aelatgt.net/api/v1/avatars/fUXY8u9/avatar.gltf?v=63769986359",
+        "base": "https://hubs.aelatgt.net/api/v1/avatars/fUXY8u9/base.gltf?v=63769986359"
+      },
+      "id": "fUXY8u9",
+      "images": {
+        "preview": {
+          "height": 1280,
+          "url": "https://gt-ael-aq-assets.aelatgt-internal.net/files/3548c0a7-37b3-41cc-b457-335ea9e275d5.png",
+          "width": 720
+        }
+      },
+      "name": "Ducky Bobble Grey Sweater",
+      "type": "avatar_listing",
+      "url": "https://hubs.aelatgt.net/avatars/fUXY8u9"
+    },
+    {
+      "allow_remixing": true,
+      "attributions": { "creator": "" },
+      "description": null,
+      "gltfs": {
+        "avatar": "https://hubs.aelatgt.net/api/v1/avatars/QESIQnR/avatar.gltf?v=63769986352",
+        "base": "https://hubs.aelatgt.net/api/v1/avatars/QESIQnR/base.gltf?v=63769986352"
+      },
+      "id": "QESIQnR",
+      "images": {
+        "preview": {
+          "height": 1280,
+          "url": "https://gt-ael-aq-assets.aelatgt-internal.net/files/23401e01-2780-4f8e-9b53-61d608ede3c1.png",
+          "width": 720
+        }
+      },
+      "name": "Skeleton Halloween Bot",
+      "type": "avatar_listing",
+      "url": "https://hubs.aelatgt.net/avatars/QESIQnR"
+    },
+    {
+      "allow_remixing": true,
+      "attributions": { "creator": "Salvador Herrera" },
+      "description": null,
+      "gltfs": {
+        "avatar": "https://hubs.aelatgt.net/api/v1/avatars/1cdMIMt/avatar.gltf?v=63769986342",
+        "base": "https://hubs.aelatgt.net/api/v1/avatars/1cdMIMt/base.gltf?v=63769986342"
+      },
+      "id": "1cdMIMt",
+      "images": {
+        "preview": {
+          "height": 1280,
+          "url": "https://gt-ael-aq-assets.aelatgt-internal.net/files/c234450f-d7f3-4095-afd1-65eb9a86c79f.png",
+          "width": 720
+        }
+      },
+      "name": "salva",
+      "type": "avatar_listing",
+      "url": "https://hubs.aelatgt.net/avatars/1cdMIMt"
+    },
+    {
+      "allow_remixing": true,
+      "attributions": { "creator": "" },
+      "description": null,
+      "gltfs": {
+        "avatar": "https://hubs.aelatgt.net/api/v1/avatars/LabivVx/avatar.gltf?v=63769986328",
+        "base": "https://hubs.aelatgt.net/api/v1/avatars/LabivVx/base.gltf?v=63769986328"
+      },
+      "id": "LabivVx",
+      "images": {
+        "preview": {
+          "height": 1280,
+          "url": "https://gt-ael-aq-assets.aelatgt-internal.net/files/74601fe7-5065-4e99-b3e5-ce04d37d5f50.png",
+          "width": 720
+        }
+      },
+      "name": "Pumpkin Halloween Bot",
+      "type": "avatar_listing",
+      "url": "https://hubs.aelatgt.net/avatars/LabivVx"
+    },
+    {
+      "allow_remixing": false,
+      "attributions": { "creator": "Hubs Team" },
+      "description": null,
+      "gltfs": {
+        "avatar": "https://hubs.aelatgt.net/api/v1/avatars/Cg8UQZm/avatar.gltf?v=63769986319",
+        "base": "https://hubs.aelatgt.net/api/v1/avatars/Cg8UQZm/base.gltf?v=63769986319"
+      },
+      "id": "Cg8UQZm",
+      "images": {
+        "preview": {
+          "height": 1280,
+          "url": "https://gt-ael-aq-assets.aelatgt-internal.net/files/3274fed8-343d-40c3-aa49-7d5535a60e87.png",
+          "width": 720
+        }
+      },
+      "name": "Jack-o-lantern",
+      "type": "avatar_listing",
+      "url": "https://hubs.aelatgt.net/avatars/Cg8UQZm"
+    },
+    {
+      "allow_remixing": true,
+      "attributions": { "creator": "Plant model by Ligul3D: https://sketchfab.com/Ligul" },
+      "description": null,
+      "gltfs": {
+        "avatar": "https://hubs.aelatgt.net/api/v1/avatars/OEYHykL/avatar.gltf?v=63769986310",
+        "base": "https://hubs.aelatgt.net/api/v1/avatars/OEYHykL/base.gltf?v=63769986310"
+      },
+      "id": "OEYHykL",
+      "images": {
+        "preview": {
+          "height": 1280,
+          "url": "https://gt-ael-aq-assets.aelatgt-internal.net/files/d45e0ef3-3101-4fe9-9631-53f1d0385ba0.png",
+          "width": 720
+        }
+      },
+      "name": "Audrey Three Halloween",
+      "type": "avatar_listing",
+      "url": "https://hubs.aelatgt.net/avatars/OEYHykL"
+    },
+    {
+      "allow_remixing": false,
+      "attributions": { "creator": "Hubs Team" },
+      "description": null,
+      "gltfs": {
+        "avatar": "https://hubs.aelatgt.net/api/v1/avatars/NN2j0MM/avatar.gltf?v=63769986304",
+        "base": "https://hubs.aelatgt.net/api/v1/avatars/NN2j0MM/base.gltf?v=63769986304"
+      },
+      "id": "NN2j0MM",
+      "images": {
+        "preview": {
+          "height": 1280,
+          "url": "https://gt-ael-aq-assets.aelatgt-internal.net/files/073208e5-03cb-4062-9af3-0658bdbaf8e5.png",
+          "width": 720
+        }
+      },
+      "name": "Ghost Halloween Avatar",
+      "type": "avatar_listing",
+      "url": "https://hubs.aelatgt.net/avatars/NN2j0MM"
+    },
+    {
+      "allow_remixing": false,
+      "attributions": { "creator": "Hubs Team" },
+      "description": null,
+      "gltfs": {
+        "avatar": "https://hubs.aelatgt.net/api/v1/avatars/1na22FI/avatar.gltf?v=63769986290",
+        "base": "https://hubs.aelatgt.net/api/v1/avatars/1na22FI/base.gltf?v=63769986290"
+      },
+      "id": "1na22FI",
+      "images": {
+        "preview": {
+          "height": 1280,
+          "url": "https://gt-ael-aq-assets.aelatgt-internal.net/files/3ff91975-784a-43d7-ba99-69914a7d7359.png",
+          "width": 720
+        }
+      },
+      "name": "Bat Halloween Avatar",
+      "type": "avatar_listing",
+      "url": "https://hubs.aelatgt.net/avatars/1na22FI"
+    }
+  ],
+  "suggestions": null
+}
