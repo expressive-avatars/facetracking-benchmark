@@ -21,19 +21,37 @@ export function DashboardPage() {
 }
 
 function DashboardPanels({ avatar, onOpenPicker = () => {} }) {
-  const onCreated = ({ gl }) => {
-    gl.setScissorTest(true)
-  }
   const avatarURL = `/avatars/${avatar}.glb`
 
   const [calibrationKey, calibrate] = useReducer((x) => x + 1, 0)
-  useControls({
-    calibrate: button(() => {
-      console.log("calibrate")
-      calibrate()
-    }),
+  const iosBlendShapes = useRef()
+  const hallwayBlendShapes = useRef()
+
+  const capture = () => {
+    console.log(iosBlendShapes.current)
+    console.log(hallwayBlendShapes.current)
+  }
+
+  const exportData = () => {}
+
+  useControls("setup", {
+    calibrate: button(calibrate),
     "choose avatar": button(onOpenPicker),
   })
+
+  useControls("capture", {
+    expression: "A",
+    participant: 0,
+    capture: button(capture),
+  })
+
+  useControls("export", {
+    export: button(exportData),
+  })
+
+  const initCanvas = ({ gl }) => {
+    gl.setScissorTest(true)
+  }
   return (
     <>
       <Webcam style={{ position: "absolute", zIndex: 1, width: "50vw", height: "50vh", objectFit: "cover" }} />
@@ -45,12 +63,12 @@ function DashboardPanels({ avatar, onOpenPicker = () => {} }) {
           <span className={style.label}>Avatar (iOS)</span>
         </div>
       </div>
-      <Canvas camera={{ manual: true }} onCreated={onCreated}>
+      <Canvas camera={{ manual: true }} onCreated={initCanvas}>
         <Stats />
         <Suspense fallback={null}>
           <Environment preset="warehouse" background />
 
-          <IOSProvider calibrationKey={calibrationKey}>
+          <IOSProvider blendShapesRef={iosBlendShapes} calibrationKey={calibrationKey}>
             {/* BOTTOM LEFT */}
             <group>
               <PerspectiveCameraView bounds={{ min: [0, 0], max: [0.5, 0.5] }} position={[0, 0, 5]} />
@@ -70,7 +88,7 @@ function DashboardPanels({ avatar, onOpenPicker = () => {} }) {
             </group>
           </IOSProvider>
 
-          <HallwayProvider calibrationKey={calibrationKey}>
+          <HallwayProvider blendShapesRef={hallwayBlendShapes} calibrationKey={calibrationKey}>
             {/* TOP RIGHT */}
             <group position={[200, 0, 0]}>
               <PerspectiveCameraView bounds={{ min: [0.5, 0.5], max: [1, 1] }} position={[0, 0, 5]} />

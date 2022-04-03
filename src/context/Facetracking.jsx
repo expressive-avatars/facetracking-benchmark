@@ -34,7 +34,7 @@ export const useFaceMesh = (fn) => {
   }, [fn, faceMeshListeners])
 }
 
-export function IOSProvider({ calibrationKey, children }) {
+export function IOSProvider({ calibrationKey, blendShapesRef, children }) {
   const [socket] = useState(() => io("/dashboard"))
   const [[blendShapeListeners, faceMeshListeners]] = useState(() => [new Set(), new Set()])
 
@@ -49,6 +49,10 @@ export function IOSProvider({ calibrationKey, children }) {
 
   useEffect(() => {
     socket.on("iosResults", ({ blendShapes, headRotation, eyeRotation, vertexPositions, triangleIndices }) => {
+      if (blendShapesRef) {
+        blendShapesRef.current = blendShapes
+      }
+
       // Calibration
       headEuler.fromArray(headRotation)
       headQuaternion.setFromEuler(headEuler)
@@ -75,7 +79,7 @@ export function IOSProvider({ calibrationKey, children }) {
   )
 }
 
-export function HallwayProvider({ calibrationKey, children }) {
+export function HallwayProvider({ calibrationKey, blendShapesRef, children }) {
   const [bc] = useState(() => new BroadcastChannel("hallway"))
   const [blendShapeListeners] = useState(() => new Set())
 
@@ -100,6 +104,9 @@ export function HallwayProvider({ calibrationKey, children }) {
           /** @type {import("@quarkworks-inc/avatar-webkit").AvatarPrediction} */
           const results = action.payload
           const { rotation, actionUnits: blendShapes } = results
+          if (blendShapesRef) {
+            blendShapesRef.current = blendShapes
+          }
 
           headEuler.set(-rotation.pitch, rotation.yaw, -rotation.roll)
           headQuaternion.setFromEuler(headEuler)
