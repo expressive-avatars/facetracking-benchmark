@@ -1,14 +1,26 @@
 import * as THREE from "three"
 
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import { useFaceMesh } from "@/context/Facetracking"
+import { dampQuaternions } from "@/utils/dampQuaternions"
+import { useFrame } from "@react-three/fiber"
+
+const LAMBDA = 50
 
 export function FaceMesh() {
   /** @type {React.RefObject<THREE.Mesh>} */
   const mesh = useRef()
 
+  const [target] = useState(() => ({
+    headQuaternion: new THREE.Quaternion(),
+  }))
+
+  useFrame((_, dt) => {
+    dampQuaternions(mesh.current.quaternion, target.headQuaternion, LAMBDA, dt)
+  })
+
   useFaceMesh(({ headQuaternion, vertexPositions, triangleIndices }) => {
-    mesh.current.quaternion.copy(headQuaternion)
+    target.headQuaternion.copy(headQuaternion)
 
     const geometry = mesh.current.geometry
 
