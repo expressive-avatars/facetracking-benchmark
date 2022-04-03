@@ -8,6 +8,7 @@ import { ReadyPlayerMeAvatar } from "@/components/dashboard/ReadyPlayerMeAvatar"
 import { Webcam } from "@/components/dashboard/Webcam"
 import { FaceMesh } from "@/components/dashboard/FaceMesh"
 import { useControls, button } from "leva"
+import style from "./style.module.css"
 
 const DEFAULT_AVATAR = "https://d1a370nemizbjq.cloudfront.net/b2572c50-a10a-42b6-ab30-694f60fed40f.glb"
 
@@ -28,6 +29,14 @@ export function DashboardPage() {
   return (
     <>
       <Webcam style={{ position: "absolute", zIndex: 1, width: "50vw", height: "50vh", objectFit: "cover" }} />
+      <div className={style.centered}>
+        <div className={style.labels}>
+          <span className={style.label}>Webcam</span>
+          <span className={style.label}>Avatar (Webcam)</span>
+          <span className={style.label}>Mesh (iOS)</span>
+          <span className={style.label}>Avatar (iOS)</span>
+        </div>
+      </div>
       <Canvas camera={{ manual: true }} onCreated={onCreated}>
         <Stats />
         <Suspense fallback={null}>

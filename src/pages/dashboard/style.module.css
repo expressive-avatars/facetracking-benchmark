@@ -1,0 +1,28 @@
+.centered {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  place-items: center;
+  z-index: 1;
+}
+
+.labels {
+  display: inline-grid;
+  gap: 1rem;
+  place-content: center;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.label {
+  color: white;
+  background: black;
+  font-family: monospace;
+  text-transform: lowercase;
+  font-weight: bold;
+  padding: 4px 10px;
+  font-size: 12pt;
+  text-align: center;
+  border: 2px solid white;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+}
