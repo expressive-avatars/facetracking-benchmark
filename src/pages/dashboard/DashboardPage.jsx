@@ -1,4 +1,4 @@
-import { Suspense, useLayoutEffect, useReducer, useRef, useState } from "react"
+import { Suspense, useEffect, useLayoutEffect, useReducer, useRef, useState } from "react"
 import { Canvas, useFrame, useThree } from "@react-three/fiber"
 import { Box, Environment, Stats } from "@react-three/drei"
 import * as THREE from "three"
@@ -27,12 +27,34 @@ function DashboardPanels({ avatar, onOpenPicker = () => {} }) {
   const iosBlendShapes = useRef()
   const hallwayBlendShapes = useRef()
 
-  const capture = () => {
-    console.log(iosBlendShapes.current)
-    console.log(hallwayBlendShapes.current)
+  const [captures, setCaptures] = useState({})
+
+  const exportData = () => {
+    const data = {
+      captures,
+      avatar,
+    }
+    const blob = new Blob([JSON.stringify(data)], {
+      type: "application/json",
+    })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement("a")
+    a.href = url
+    a.download = `export_${Date.now()}`
+    a.click()
+    console.log(data)
   }
 
-  const exportData = () => {}
+  const capture = (get) => {
+    const expression = get("capture.expression")
+    const key = `expression ${expression}`
+    const value = {
+      timestamp: Date.now(),
+      iosBlendShapes: iosBlendShapes.current,
+      hallwayBlendShapes: hallwayBlendShapes.current,
+    }
+    setCaptures((captures) => ({ ...captures, [key]: value }))
+  }
 
   useControls("setup", {
     calibrate: button(calibrate),
@@ -40,14 +62,22 @@ function DashboardPanels({ avatar, onOpenPicker = () => {} }) {
   })
 
   useControls("capture", {
-    expression: "A",
-    participant: 0,
+    expression: { options: ["A", "B", "C", "D", "E", "F", "G"] },
     capture: button(capture),
   })
 
-  useControls("export", {
-    export: button(exportData),
-  })
+  const summary = Object.keys(captures).join("\n")
+  const [_, set] = useControls(
+    "export",
+    () => ({
+      summary: { value: summary, editable: false },
+      export: button(exportData),
+    }),
+    [exportData]
+  )
+  useEffect(() => {
+    set({ summary })
+  }, [summary])
 
   const initCanvas = ({ gl }) => {
     gl.setScissorTest(true)
