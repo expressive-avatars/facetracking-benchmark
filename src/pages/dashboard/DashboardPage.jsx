@@ -1,4 +1,4 @@
-import { Suspense, useLayoutEffect, useRef, useState } from "react"
+import { Suspense, useLayoutEffect, useReducer, useRef, useState } from "react"
 import { Canvas, useFrame, useThree } from "@react-three/fiber"
 import { Box, Environment, Stats } from "@react-three/drei"
 import * as THREE from "three"
@@ -7,6 +7,7 @@ import { HallwayProvider, IOSProvider } from "@/context/Facetracking"
 import { ReadyPlayerMeAvatar } from "@/components/dashboard/ReadyPlayerMeAvatar"
 import { Webcam } from "@/components/dashboard/Webcam"
 import { FaceMesh } from "@/components/dashboard/FaceMesh"
+import { useControls, button } from "leva"
 
 const DEFAULT_AVATAR = "https://d1a370nemizbjq.cloudfront.net/b2572c50-a10a-42b6-ab30-694f60fed40f.glb"
 
@@ -16,6 +17,14 @@ export function DashboardPage() {
   }
   const searchParams = useSearchParams()
   const avatarURL = searchParams.get("avatarURL") ?? DEFAULT_AVATAR
+
+  const [calibrationKey, calibrate] = useReducer((x) => x + 1, 0)
+  useControls({
+    calibrate: button(() => {
+      console.log("calibrate")
+      calibrate()
+    }),
+  })
   return (
     <>
       <Webcam style={{ position: "absolute", zIndex: 1, width: "50vw", height: "50vh", objectFit: "cover" }} />
@@ -24,11 +33,11 @@ export function DashboardPage() {
         <Suspense fallback={null}>
           <Environment preset="warehouse" background />
 
-          <IOSProvider>
+          <IOSProvider calibrationKey={calibrationKey}>
             {/* BOTTOM LEFT */}
             <group>
               <PerspectiveCameraView bounds={{ min: [0, 0], max: [0.5, 0.5] }} position={[0, 0, 5]} />
-              <group scale={10}>
+              <group scale={14}>
                 <FaceMesh />
               </group>
             </group>
@@ -36,20 +45,20 @@ export function DashboardPage() {
             {/* BOTTOM RIGHT */}
             <group position={[100, 0, 0]}>
               <PerspectiveCameraView bounds={{ min: [0.5, 0], max: [1, 0.5] }} position={[0, 0, 5]} />
-              <group scale={7}>
-                <group position={[0, -0.6, 0]}>
+              <group scale={10}>
+                <group position={[0, -0.64, 0]}>
                   <ReadyPlayerMeAvatar path={avatarURL} />
                 </group>
               </group>
             </group>
           </IOSProvider>
 
-          <HallwayProvider>
+          <HallwayProvider calibrationKey={calibrationKey}>
             {/* TOP RIGHT */}
             <group position={[200, 0, 0]}>
               <PerspectiveCameraView bounds={{ min: [0.5, 0.5], max: [1, 1] }} position={[0, 0, 5]} />
-              <group scale={7}>
-                <group position={[0, -0.6, 0]}>
+              <group scale={10}>
+                <group position={[0, -0.64, 0]}>
                   <ReadyPlayerMeAvatar path={avatarURL} />
                 </group>
               </group>

@@ -32,9 +32,9 @@ export function ReadyPlayerMeAvatar({ path }) {
     return { bones, meshes }
   }, [nodes])
 
-  useBlendShapes(({ blendShapes, eyeRotation, headRotation }) => {
+  useBlendShapes(({ blendShapes, eyeRotation, headQuaternion }) => {
     // Update bones
-    bones.head.rotation.fromArray(headRotation)
+    bones.head.quaternion.copy(headQuaternion)
 
     // Update morphs
     for (let mesh of meshes) {

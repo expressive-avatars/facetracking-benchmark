@@ -1,11 +1,16 @@
-import { createContext, useContext, useState, useEffect } from "react"
+import React, { createContext, useContext, useState, useEffect, useRef } from "react"
 import io from "socket.io-client"
+import * as THREE from "three"
 
+const headQuaternion = new THREE.Quaternion()
+const headEuler = new THREE.Euler()
+
+/** @type {React.Context<{ blendShapeListeners?: Set<function>, faceMeshListeners?: Set<function}>} */
 const FacetrackingContext = createContext()
 
 /**
  *
- * @param {(args: {blendShapes: {[key: string]: number}, headRotation: number[], eyeRotation: number[]}) => void} fn
+ * @param {(args: {blendShapes: {[key: string]: number}, headQuaternion: THREE.Quaternion, eyeRotation: number[]}) => void} fn
  */
 export const useBlendShapes = (fn) => {
   const { blendShapeListeners } = useContext(FacetrackingContext)
@@ -24,25 +29,41 @@ export const useFaceMesh = (fn) => {
   const { faceMeshListeners } = useContext(FacetrackingContext)
   useEffect(() => {
     if (!faceMeshListeners) throw new Error("Context does not support faceMeshListeners")
-    console.log("adding useFaceMesh listener")
     faceMeshListeners.add(fn)
     return () => faceMeshListeners.delete(fn)
   }, [fn, faceMeshListeners])
 }
 
-let flag = false
-
-export function IOSProvider({ children }) {
+export function IOSProvider({ calibrationKey, children }) {
   const [socket] = useState(() => io("/dashboard"))
   const [[blendShapeListeners, faceMeshListeners]] = useState(() => [new Set(), new Set()])
+
+  /**
+   * Calibration resources
+   */
+  const [calibrationQuaternion] = useState(() => new THREE.Quaternion())
+  const needsCalibration = useRef(false)
+  useEffect(() => {
+    needsCalibration.current = true
+  }, [calibrationKey])
+
   useEffect(() => {
     socket.on("iosResults", ({ blendShapes, headRotation, eyeRotation, vertexPositions, triangleIndices }) => {
-      blendShapeListeners.forEach((fn) => fn({ blendShapes, headRotation, eyeRotation }))
+      // Calibration
+      headEuler.fromArray(headRotation)
+      headQuaternion.setFromEuler(headEuler)
+      if (needsCalibration.current) {
+        calibrationQuaternion.copy(headQuaternion).invert()
+        needsCalibration.current = false
+      }
+      headQuaternion.premultiply(calibrationQuaternion)
+
+      blendShapeListeners.forEach((fn) => fn({ blendShapes, headQuaternion, eyeRotation }))
       faceMeshListeners.forEach((fn) =>
         fn({
           vertexPositions: new Float32Array(vertexPositions),
           triangleIndices: new Uint32Array(triangleIndices),
-          headRotation,
+          headQuaternion,
         })
       )
     })
@@ -54,9 +75,19 @@ export function IOSProvider({ children }) {
   )
 }
 
-export function HallwayProvider({ children }) {
+export function HallwayProvider({ calibrationKey, children }) {
   const [bc] = useState(() => new BroadcastChannel("hallway"))
   const [blendShapeListeners] = useState(() => new Set())
+
+  /**
+   * Calibration resources
+   */
+  const [calibrationQuaternion] = useState(() => new THREE.Quaternion())
+  const needsCalibration = useRef(false)
+  useEffect(() => {
+    needsCalibration.current = true
+  }, [calibrationKey])
+
   useEffect(() => {
     const onMessage = (e) => {
       const action = e.data
@@ -70,13 +101,20 @@ export function HallwayProvider({ children }) {
           const results = action.payload
           const { rotation, actionUnits: blendShapes } = results
 
-          const headRotation = [-rotation.pitch, rotation.yaw, -rotation.roll]
+          headEuler.set(-rotation.pitch, rotation.yaw, -rotation.roll)
+          headQuaternion.setFromEuler(headEuler)
+
+          if (needsCalibration.current) {
+            calibrationQuaternion.copy(headQuaternion).invert()
+            needsCalibration.current = false
+          }
+          headQuaternion.premultiply(calibrationQuaternion)
 
           const eyeRotationX = blendShapes["eyeLookDownRight"] * 0.5 - blendShapes["eyeLookUpRight"] * 0.5
           const eyeRotationZ = blendShapes["eyeLookOutRight"] - blendShapes["eyeLookOutLeft"]
           const eyeRotation = [eyeRotationX, 0, eyeRotationZ]
 
-          blendShapeListeners.forEach((fn) => fn({ blendShapes, headRotation, eyeRotation }))
+          blendShapeListeners.forEach((fn) => fn({ blendShapes, headQuaternion, eyeRotation }))
           break
       }
     }

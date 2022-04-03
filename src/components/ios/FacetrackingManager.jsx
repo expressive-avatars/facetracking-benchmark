@@ -14,7 +14,7 @@ const euler = new THREE.Euler()
 const subscribers = new Set()
 
 export function FacetrackingManager() {
-  const [headOrientation] = useState(() => new THREE.Quaternion())
+  const [headQuaternion] = useState(() => new THREE.Quaternion())
 
   const [socket] = useState(() => io())
 
@@ -52,16 +52,16 @@ export function FacetrackingManager() {
 
           // Orient head using tracker result in local (physical) space
           localHeadMatrix.fromArray(worldMesh.modelMatrix)
-          headOrientation.setFromRotationMatrix(localHeadMatrix)
+          headQuaternion.setFromRotationMatrix(localHeadMatrix)
 
           // Re-orient result to viewer's space
           const localToViewPose = frame.getPose(viewerReferenceSpace, localReferenceSpace)
           const q = localToViewPose.transform.orientation
           viewerOrientation.set(q.x, q.y, q.z, q.w)
-          headOrientation.premultiply(viewerOrientation)
+          headQuaternion.premultiply(viewerOrientation)
 
           // Un-mirror head orientation
-          euler.setFromQuaternion(headOrientation)
+          euler.setFromQuaternion(headQuaternion)
           euler.y = -euler.y
           euler.z = -euler.z
 

@@ -7,8 +7,8 @@ export function FaceMesh() {
   /** @type {React.RefObject<THREE.Mesh>} */
   const mesh = useRef()
 
-  useFaceMesh(({ headRotation, vertexPositions, triangleIndices }) => {
-    mesh.current.rotation.fromArray(headRotation)
+  useFaceMesh(({ headQuaternion, vertexPositions, triangleIndices }) => {
+    mesh.current.quaternion.copy(headQuaternion)
 
     const geometry = mesh.current.geometry
 
