@@ -13,10 +13,14 @@ import { AvatarPicker } from "@/components/dashboard/AvatarPicker"
 
 export function DashboardPage() {
   const [avatar, setAvatar] = useState(null)
-  return avatar ? <DashboardPanels avatar={avatar} /> : <AvatarPicker onInput={(value) => setAvatar(value)} />
+  return avatar ? (
+    <DashboardPanels avatar={avatar} onOpenPicker={() => setAvatar(null)} />
+  ) : (
+    <AvatarPicker onInput={(value) => setAvatar(value)} />
+  )
 }
 
-function DashboardPanels({ avatar }) {
+function DashboardPanels({ avatar, onOpenPicker = () => {} }) {
   const onCreated = ({ gl }) => {
     gl.setScissorTest(true)
   }
@@ -28,6 +32,7 @@ function DashboardPanels({ avatar }) {
       console.log("calibrate")
       calibrate()
     }),
+    "choose avatar": button(onOpenPicker),
   })
   return (
     <>
