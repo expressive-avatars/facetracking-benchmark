@@ -7,7 +7,7 @@ export function remapBlendShapes(blendShapes) {
     Object.keys(mirrorMap).map((name) => {
       const mirroredName = mirrorMap[name]
       let influence = blendShapes[mirroredName] ?? 0
-      influence *= scaling[mirroredName] ?? 1
+      // influence *= scaling[mirroredName] ?? 1
       return [name, influence]
     })
   )
