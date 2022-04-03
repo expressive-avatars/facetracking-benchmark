@@ -13,8 +13,8 @@ export function AvatarPicker({ onInput = () => {} }) {
     <div className={style.container}>
       <ul className={style.grid}>
         {options.map((name, i) => (
-          <button onClick={() => onInput(name)}>
-            <img className={style.thumbnail} key={i} src={`/thumbnails/${name}.png`} width="150px" height="150px" />
+          <button key={i} onClick={() => onInput(name)}>
+            <img className={style.thumbnail} src={`/thumbnails/${name}.png`} width="150px" height="150px" />
           </button>
         ))}
       </ul>
