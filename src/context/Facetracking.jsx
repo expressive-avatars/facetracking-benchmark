@@ -48,7 +48,7 @@ export function IOSProvider({ calibrationKey, blendShapesRef, children }) {
   }, [calibrationKey])
 
   useEffect(() => {
-    socket.on("iosResults", ({ blendShapes, headRotation, eyeRotation, vertexPositions, triangleIndices }) => {
+    socket.on("iosResults", ({ blendShapes, headRotation, eyeRotation, vertexPositions }) => {
       if (blendShapesRef) {
         blendShapesRef.current = blendShapes
       }
@@ -66,7 +66,6 @@ export function IOSProvider({ calibrationKey, blendShapesRef, children }) {
       faceMeshListeners.forEach((fn) =>
         fn({
           vertexPositions: new Float32Array(vertexPositions),
-          triangleIndices: new Uint32Array(triangleIndices),
           headQuaternion,
         })
       )

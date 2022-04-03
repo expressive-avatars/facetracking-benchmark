@@ -70,21 +70,24 @@ export function FacetrackingManager() {
           const eyeRotationZ = blendShapes["eyeLookOutRight"] - blendShapes["eyeLookOutLeft"]
           const eyeRotation = [eyeRotationX, 0, eyeRotationZ]
 
-          const payload = {
-            blendShapes,
-            headRotation,
-            eyeRotation,
-            vertexPositions,
-            triangleIndices,
-          }
-
           subscribers.forEach((callbackFn) => {
-            callbackFn(payload)
+            callbackFn({
+              blendShapes,
+              headRotation,
+              eyeRotation,
+              vertexPositions,
+              triangleIndices,
+            })
           })
 
           if (time - lastEmittedMs.current > timeoutMs) {
             lastEmittedMs.current = time
-            socket.volatile.emit("results", payload)
+            socket.volatile.emit("results", {
+              blendShapes,
+              headRotation,
+              eyeRotation,
+              vertexPositions,
+            })
           }
         }
       })
