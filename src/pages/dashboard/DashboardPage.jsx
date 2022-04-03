@@ -13,15 +13,15 @@ import { AvatarPicker } from "@/components/dashboard/AvatarPicker"
 
 export function DashboardPage() {
   const [avatar, setAvatar] = useState(null)
-  return avatar ? (
+  return true ? (
     <DashboardPanels avatar={avatar} onOpenPicker={() => setAvatar(null)} />
   ) : (
     <AvatarPicker onInput={(value) => setAvatar(value)} />
   )
 }
 
-function DashboardPanels({ avatar, onOpenPicker = () => {} }) {
-  const avatarURL = `/avatars/${avatar}.glb`
+function DashboardPanels({ avatar = "custom", onOpenPicker = () => {} }) {
+  const avatarURL = "https://d1a370nemizbjq.cloudfront.net/54a8ca1e-1759-4cf9-ab76-bec155d6c83c.glb"
 
   const [calibrationKey, calibrate] = useReducer((x) => x + 1, 0)
   const iosBlendShapes = useRef()
@@ -84,7 +84,16 @@ function DashboardPanels({ avatar, onOpenPicker = () => {} }) {
   }
   return (
     <>
-      <Webcam style={{ position: "absolute", zIndex: 1, width: "50vw", height: "50vh", objectFit: "cover" }} />
+      <Webcam
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          width: "50vw",
+          height: "50vh",
+          objectFit: "cover",
+          transform: "scaleX(-1)",
+        }}
+      />
       <div className={style.centered}>
         <div className={style.labels}>
           <span className={style.label}>Webcam</span>
@@ -103,7 +112,9 @@ function DashboardPanels({ avatar, onOpenPicker = () => {} }) {
             <group>
               <PerspectiveCameraView bounds={{ min: [0, 0], max: [0.5, 0.5] }} position={[0, 0, 5]} />
               <group scale={14}>
-                <FaceMesh />
+                <group scale-x={-1}>
+                  <FaceMesh />
+                </group>
               </group>
             </group>
 
@@ -111,7 +122,7 @@ function DashboardPanels({ avatar, onOpenPicker = () => {} }) {
             <group position={[100, 0, 0]}>
               <PerspectiveCameraView bounds={{ min: [0.5, 0], max: [1, 0.5] }} position={[0, 0, 5]} />
               <group scale={10}>
-                <group position={[0, -0.64, 0]}>
+                <group position={[0, -0.64, 0]} scale-x={-1}>
                   <ReadyPlayerMeAvatar path={avatarURL} />
                 </group>
               </group>
@@ -123,7 +134,7 @@ function DashboardPanels({ avatar, onOpenPicker = () => {} }) {
             <group position={[200, 0, 0]}>
               <PerspectiveCameraView bounds={{ min: [0.5, 0.5], max: [1, 1] }} position={[0, 0, 5]} />
               <group scale={10}>
-                <group position={[0, -0.64, 0]}>
+                <group position={[0, -0.64, 0]} scale-x={-1}>
                   <ReadyPlayerMeAvatar path={avatarURL} />
                 </group>
               </group>
