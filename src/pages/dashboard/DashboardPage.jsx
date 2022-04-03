@@ -9,15 +9,18 @@ import { Webcam } from "@/components/dashboard/Webcam"
 import { FaceMesh } from "@/components/dashboard/FaceMesh"
 import { useControls, button } from "leva"
 import style from "./style.module.css"
-
-const DEFAULT_AVATAR = "https://d1a370nemizbjq.cloudfront.net/b2572c50-a10a-42b6-ab30-694f60fed40f.glb"
+import { AvatarPicker } from "@/components/dashboard/AvatarPicker"
 
 export function DashboardPage() {
+  const [avatar, setAvatar] = useState(null)
+  return avatar ? <DashboardPanels avatar={avatar} /> : <AvatarPicker onInput={(value) => setAvatar(value)} />
+}
+
+function DashboardPanels({ avatar }) {
   const onCreated = ({ gl }) => {
     gl.setScissorTest(true)
   }
-  const searchParams = useSearchParams()
-  const avatarURL = searchParams.get("avatarURL") ?? DEFAULT_AVATAR
+  const avatarURL = `/avatars/${avatar}.glb`
 
   const [calibrationKey, calibrate] = useReducer((x) => x + 1, 0)
   useControls({
