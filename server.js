@@ -19,8 +19,13 @@ async function createServer() {
     socket.on("message", (message) => console.log(`[${socket.id}]`, message))
 
     // Received iOS tracking results
-    socket.on("results", (results) => {
+    socket.on("iosResults", (results) => {
       io.of("/dashboard").volatile.emit("iosResults", results)
+    })
+
+    // Received iOS tracking results
+    socket.on("hallwayResults", (results) => {
+      io.of("/dashboard").volatile.emit("hallwayResults", results)
     })
   })
 

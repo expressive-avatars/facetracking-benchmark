@@ -1,5 +1,6 @@
 import { AUPredictor } from "@quarkworks-inc/avatar-webkit"
 import Stats from "three/examples/jsm/libs/stats.module.js"
+import io from "socket.io-client"
 
 import SleepWorker from "./worker?worker"
 
@@ -9,6 +10,8 @@ const statusEl = document.querySelector("#status")
 
 const stats = Stats()
 document.body.appendChild(stats.dom)
+
+const socket = io()
 
 statusEl.textContent = "Initializing camera..."
 document.title = "🔴 Hallway Tracker"
@@ -71,7 +74,8 @@ worker.onmessage = () => {
 
 predictor.dataStream.subscribe((results) => {
   stats.update()
-  bc.postMessage({ type: "results", payload: results })
+  socket.volatile.emit("hallwayResults", results)
+  // bc.postMessage({ type: "results", payload: results })
   worker.postMessage(1000 / FPS)
 })
 

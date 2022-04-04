@@ -48,28 +48,32 @@ export function IOSProvider({ calibrationKey, blendShapesRef, children }) {
   }, [calibrationKey])
 
   useEffect(() => {
-    socket.on("iosResults", ({ blendShapes, headRotation, eyeRotation, vertexPositions }) => {
-      if (blendShapesRef) {
-        blendShapesRef.current = blendShapes
-      }
+    const onResults =
+      () =>
+      ({ blendShapes, headRotation, eyeRotation, vertexPositions }) => {
+        if (blendShapesRef) {
+          blendShapesRef.current = blendShapes
+        }
 
-      // Calibration
-      headEuler.fromArray(headRotation)
-      headQuaternion.setFromEuler(headEuler)
-      if (needsCalibration.current) {
-        calibrationQuaternion.copy(headQuaternion).invert()
-        needsCalibration.current = false
-      }
-      headQuaternion.premultiply(calibrationQuaternion)
+        // Calibration
+        headEuler.fromArray(headRotation)
+        headQuaternion.setFromEuler(headEuler)
+        if (needsCalibration.current) {
+          calibrationQuaternion.copy(headQuaternion).invert()
+          needsCalibration.current = false
+        }
+        headQuaternion.premultiply(calibrationQuaternion)
 
-      blendShapeListeners.forEach((fn) => fn({ blendShapes, headQuaternion, eyeRotation }))
-      faceMeshListeners.forEach((fn) =>
-        fn({
-          vertexPositions: new Float32Array(vertexPositions),
-          headQuaternion,
-        })
-      )
-    })
+        blendShapeListeners.forEach((fn) => fn({ blendShapes, headQuaternion, eyeRotation }))
+        faceMeshListeners.forEach((fn) =>
+          fn({
+            vertexPositions: new Float32Array(vertexPositions),
+            headQuaternion,
+          })
+        )
+      }
+    socket.on("iosResults", onResults)
+    return () => socket.off("iosResults", onResults)
   }, [socket, blendShapeListeners, faceMeshListeners])
   return (
     <FacetrackingContext.Provider value={{ blendShapeListeners, faceMeshListeners }}>
@@ -79,7 +83,8 @@ export function IOSProvider({ calibrationKey, blendShapesRef, children }) {
 }
 
 export function HallwayProvider({ calibrationKey, blendShapesRef, children }) {
-  const [bc] = useState(() => new BroadcastChannel("hallway"))
+  const [socket] = useState(() => io("/dashboard"))
+  // const [bc] = useState(() => new BroadcastChannel("hallway"))
   const [blendShapeListeners] = useState(() => new Set())
 
   /**
@@ -92,41 +97,31 @@ export function HallwayProvider({ calibrationKey, blendShapesRef, children }) {
   }, [calibrationKey])
 
   useEffect(() => {
-    const onMessage = (e) => {
-      const action = e.data
-      switch (action.type) {
-        case "log":
-          const message = action.payload
-          console.log(message)
-          break
-        case "results":
-          /** @type {import("@quarkworks-inc/avatar-webkit").AvatarPrediction} */
-          const results = action.payload
-          const { rotation, actionUnits: blendShapes } = results
-          if (blendShapesRef) {
-            blendShapesRef.current = blendShapes
-          }
-
-          headEuler.set(-rotation.pitch, rotation.yaw, -rotation.roll)
-          headQuaternion.setFromEuler(headEuler)
-
-          if (needsCalibration.current) {
-            calibrationQuaternion.copy(headQuaternion).invert()
-            needsCalibration.current = false
-          }
-          headQuaternion.premultiply(calibrationQuaternion)
-
-          const eyeRotationX = blendShapes["eyeLookDownRight"] * 0.5 - blendShapes["eyeLookUpRight"] * 0.5
-          const eyeRotationZ = blendShapes["eyeLookOutRight"] - blendShapes["eyeLookOutLeft"]
-          const eyeRotation = [eyeRotationX, 0, eyeRotationZ]
-
-          blendShapeListeners.forEach((fn) => fn({ blendShapes, headQuaternion, eyeRotation }))
-          break
+    const onResults = (results) => {
+      /** @type {import("@quarkworks-inc/avatar-webkit").AvatarPrediction} */
+      const { rotation, actionUnits: blendShapes } = results
+      if (blendShapesRef) {
+        blendShapesRef.current = blendShapes
       }
+
+      headEuler.set(-rotation.pitch, rotation.yaw, -rotation.roll)
+      headQuaternion.setFromEuler(headEuler)
+
+      if (needsCalibration.current) {
+        calibrationQuaternion.copy(headQuaternion).invert()
+        needsCalibration.current = false
+      }
+      headQuaternion.premultiply(calibrationQuaternion)
+
+      const eyeRotationX = blendShapes["eyeLookDownRight"] * 0.5 - blendShapes["eyeLookUpRight"] * 0.5
+      const eyeRotationZ = blendShapes["eyeLookOutRight"] - blendShapes["eyeLookOutLeft"]
+      const eyeRotation = [eyeRotationX, 0, eyeRotationZ]
+
+      blendShapeListeners.forEach((fn) => fn({ blendShapes, headQuaternion, eyeRotation }))
     }
-    bc.addEventListener("message", onMessage)
-    return () => bc.removeEventListener("message", onMessage)
-  }, [bc, blendShapeListeners])
+    socket.on("hallwayResults", onResults)
+    return () => socket.off("hallwayResults", onResults)
+  }, [socket, blendShapeListeners])
   useEffect(() => {
     return () => bc.close()
   }, [])
