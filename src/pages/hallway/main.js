@@ -1,10 +1,14 @@
 import { AUPredictor } from "@quarkworks-inc/avatar-webkit"
+import Stats from "three/examples/jsm/libs/stats.module.js"
 
 import SleepWorker from "./worker?worker"
 
 const FPS = 30
 
 const statusEl = document.querySelector("#status")
+
+const stats = Stats()
+document.body.appendChild(stats.dom)
 
 statusEl.textContent = "Initializing camera..."
 document.title = "🔴 Hallway Tracker"
@@ -48,19 +52,25 @@ let predictor = new AUPredictor({
 const worker = new SleepWorker()
 
 let timeout
+let canpredict
 
 async function doPredict(cb) {
+  canpredict = false
   await predictor.predict(videoEl)
+  canpredict = true
   cb && cb()
   if (timeout) clearTimeout(timeout)
-  setTimeout(doPredict, 500) // Retry in a bit in case camera is obscured
+  setTimeout(doPredict, 1000) // Retry in a bit in case camera is obscured
 }
 
 worker.onmessage = () => {
-  doPredict()
+  if (canpredict) {
+    doPredict()
+  }
 }
 
 predictor.dataStream.subscribe((results) => {
+  stats.update()
   bc.postMessage({ type: "results", payload: results })
   worker.postMessage(1000 / FPS)
 })
