@@ -8,6 +8,7 @@ import * as SkeletonUtils from "three/examples/jsm/utils/SkeletonUtils"
 
 const LAMBDA = 50
 const euler = new THREE.Euler()
+const quat = new THREE.Quaternion()
 
 export function ReadyPlayerMeAvatar({ path }) {
   const { scene } = useGLTF(path)
@@ -15,7 +16,7 @@ export function ReadyPlayerMeAvatar({ path }) {
   const { nodes } = useGraph(clone)
   const [target] = useState(() => ({
     blendShapes: {},
-    eyeQuaternion: new THREE.Quaternion(),
+    eyeRotation: new THREE.Euler(),
     headQuaternion: new THREE.Quaternion(),
   }))
 
@@ -42,10 +43,7 @@ export function ReadyPlayerMeAvatar({ path }) {
   }, [nodes])
   useBlendShapes(({ blendShapes, eyeRotation, headQuaternion }) => {
     Object.assign(target.blendShapes, blendShapes)
-    euler.fromArray(eyeRotation)
-    euler.x = -Math.PI / 2 + euler.x
-    euler.z = Math.PI - euler.z
-    target.eyeQuaternion.setFromEuler(euler)
+    target.eyeRotation.fromArray(eyeRotation)
     target.headQuaternion.copy(headQuaternion)
   })
   useFrame((_, dt) => {
@@ -61,7 +59,12 @@ export function ReadyPlayerMeAvatar({ path }) {
         mesh.morphTargetInfluences[i] = THREE.MathUtils.damp(from, to, LAMBDA, dt)
       }
     }
-    dampQuaternions(bones.eyeR.quaternion, target.eyeQuaternion, LAMBDA, dt)
+    // Convert to RPM eye origin
+    euler.copy(target.eyeRotation)
+    euler.x = -Math.PI / 2 + euler.x
+    euler.z = Math.PI - euler.z
+    quat.setFromEuler(euler)
+    dampQuaternions(bones.eyeR.quaternion, quat, LAMBDA, dt)
     bones.eyeL.rotation.copy(bones.eyeR.rotation)
   })
 

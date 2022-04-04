@@ -1,8 +1,7 @@
 import { Suspense, useEffect, useLayoutEffect, useReducer, useRef, useState } from "react"
 import { Canvas, useFrame, useThree } from "@react-three/fiber"
-import { Box, Environment, Stats } from "@react-three/drei"
+import { Environment, Sphere, Stats } from "@react-three/drei"
 import * as THREE from "three"
-import { useSearchParams } from "@/hooks/useSearchParams"
 import { HallwayProvider, IOSProvider } from "@/context/Facetracking"
 import { ReadyPlayerMeAvatar } from "@/components/dashboard/ReadyPlayerMeAvatar"
 import { Webcam } from "@/components/dashboard/Webcam"
@@ -97,7 +96,7 @@ function DashboardPanels({ avatar = "custom", onOpenPicker = () => {} }) {
       <div className={style.centered}>
         <div className={style.labels}>
           <span className={style.label}>Webcam</span>
-          <span className={style.label}>Avatar (Webcam)</span>
+          <span className={style.label}>Avatar (Hallway)</span>
           <span className={style.label}>Mesh (iOS)</span>
           <span className={style.label}>Avatar (iOS)</span>
         </div>
@@ -111,6 +110,7 @@ function DashboardPanels({ avatar = "custom", onOpenPicker = () => {} }) {
             {/* BOTTOM LEFT */}
             <group>
               <PerspectiveCameraView bounds={{ min: [0, 0], max: [0.5, 0.5] }} position={[0, 0, 5]} />
+              <Backdrop />
               <group scale={14}>
                 <group scale-x={-1}>
                   <FaceMesh />
@@ -120,6 +120,7 @@ function DashboardPanels({ avatar = "custom", onOpenPicker = () => {} }) {
 
             {/* BOTTOM RIGHT */}
             <group position={[100, 0, 0]}>
+              <Backdrop />
               <PerspectiveCameraView bounds={{ min: [0.5, 0], max: [1, 0.5] }} position={[0, 0, 5]} />
               <group scale={10}>
                 <group position={[0, -0.64, 0]} scale-x={-1}>
@@ -132,6 +133,7 @@ function DashboardPanels({ avatar = "custom", onOpenPicker = () => {} }) {
           <HallwayProvider blendShapesRef={hallwayBlendShapes} calibrationKey={calibrationKey}>
             {/* TOP RIGHT */}
             <group position={[200, 0, 0]}>
+              <Backdrop />
               <PerspectiveCameraView bounds={{ min: [0.5, 0.5], max: [1, 1] }} position={[0, 0, 5]} />
               <group scale={10}>
                 <group position={[0, -0.64, 0]} scale-x={-1}>
@@ -143,6 +145,14 @@ function DashboardPanels({ avatar = "custom", onOpenPicker = () => {} }) {
         </Suspense>
       </Canvas>
     </>
+  )
+}
+
+function Backdrop() {
+  return (
+    <Sphere scale={7}>
+      <meshStandardMaterial color="black" side={THREE.BackSide} />
+    </Sphere>
   )
 }
 

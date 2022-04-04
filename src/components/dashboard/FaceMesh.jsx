@@ -9,46 +9,56 @@ import { triangleIndices } from "@/utils/triangleIndices"
 const LAMBDA = 50
 
 export function FaceMesh() {
-  /** @type {React.RefObject<THREE.Mesh>} */
-  const mesh = useRef()
+  /** @type {React.RefObject<THREE.Geometry>} */
+  const geometry = useRef()
+
+  /** @type {React.RefObject<THREE.Group>} */
+  const root = useRef()
 
   const [target] = useState(() => ({
     headQuaternion: new THREE.Quaternion(),
+    vertexPositions: new Float32Array(3660),
   }))
 
   useFrame((_, dt) => {
-    dampQuaternions(mesh.current.quaternion, target.headQuaternion, LAMBDA, dt)
+    dampQuaternions(root.current.quaternion, target.headQuaternion, LAMBDA, dt)
+    const position = geometry.current?.attributes.position
+    if (position) {
+      dampArrays(position.array, target.vertexPositions, LAMBDA, dt)
+      position.needsUpdate = true
+      geometry.current.computeVertexNormals()
+    }
   })
 
   useFaceMesh(({ headQuaternion, vertexPositions }) => {
     target.headQuaternion.copy(headQuaternion)
-
-    const geometry = mesh.current.geometry
-
-    let position = geometry.attributes.position
+    target.vertexPositions.set(vertexPositions)
 
     Object.assign(window, { vertexPositions })
-
-    if (position) {
-      position.copyArray(vertexPositions)
-      position.needsUpdate = true
-      geometry.computeVertexNormals()
-    } else {
-      position = new THREE.BufferAttribute(vertexPositions, 3)
-      position.usage = THREE.DynamicDrawUsage
-      geometry.setAttribute("position", position)
-      geometry.computeVertexNormals()
-    }
   })
   const initGeometry = (geometry) => {
     const arr = new Uint32Array(triangleIndices)
     const index = new THREE.BufferAttribute(arr, 1)
     geometry.setIndex(index)
+
+    const positionArr = new Float32Array(3660)
+    const position = new THREE.BufferAttribute(positionArr, 3)
+    position.usage = THREE.DynamicDrawUsage
+    geometry.setAttribute("position", position)
+    geometry.computeVertexNormals()
   }
   return (
-    <mesh ref={mesh} frustumCulled={false}>
-      <meshStandardMaterial color="white" metalness={1} roughness={0.2} side={THREE.DoubleSide} />
-      <bufferGeometry onUpdate={initGeometry} />
-    </mesh>
+    <group ref={root}>
+      <mesh scale-x={-1} frustumCulled={false}>
+        <meshStandardMaterial color="white" metalness={1} roughness={0.2} side={THREE.DoubleSide} />
+        <bufferGeometry ref={geometry} onUpdate={initGeometry} />
+      </mesh>
+    </group>
   )
+}
+
+function dampArrays(a, b, lambda, dt) {
+  for (let i = 0; i < a.length; ++i) {
+    a[i] = THREE.MathUtils.damp(a[i], b[i], lambda, dt)
+  }
 }
