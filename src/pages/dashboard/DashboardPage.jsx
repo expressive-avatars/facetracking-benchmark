@@ -1,11 +1,4 @@
-import {
-  Suspense,
-  useEffect,
-  useLayoutEffect,
-  useReducer,
-  useRef,
-  useState,
-} from "react"
+import { Suspense, useEffect, useLayoutEffect, useReducer, useRef, useState } from "react"
 import { Canvas, useFrame, useThree } from "@react-three/fiber"
 import { Environment, Sphere, Stats } from "@react-three/drei"
 import * as THREE from "three"
@@ -13,7 +6,7 @@ import { HallwayProvider, IOSProvider } from "@/context/Facetracking"
 import { ReadyPlayerMeAvatar } from "@/components/dashboard/ReadyPlayerMeAvatar"
 import { Webcam } from "@/components/dashboard/Webcam"
 import { FaceMesh } from "@/components/dashboard/FaceMesh"
-import { useControls, button } from "leva"
+import { useControls, button, Leva } from "leva"
 import style from "./style.module.css"
 import { AvatarPicker } from "@/components/dashboard/AvatarPicker"
 
@@ -38,7 +31,6 @@ function DashboardPanels({ avatar = "custom", onOpenPicker = () => {} }) {
   const exportData = () => {
     const data = {
       captures,
-      avatar,
     }
     const blob = new Blob([JSON.stringify(data)], {
       type: "application/json",
@@ -52,10 +44,10 @@ function DashboardPanels({ avatar = "custom", onOpenPicker = () => {} }) {
   }
 
   const capture = (get) => {
-    const expression = get("capture.expression")
-    const key = `expression ${expression}`
+    const key = get("capture.expression")
     const value = {
       timestamp: Date.now(),
+      avatar,
       iosBlendShapes: iosBlendShapes.current,
       hallwayBlendShapes: hallwayBlendShapes.current,
     }
@@ -67,29 +59,49 @@ function DashboardPanels({ avatar = "custom", onOpenPicker = () => {} }) {
     "choose avatar": button(onOpenPicker),
   })
 
+  const expressionOptions = ["A", "B", "C", "D", "E", "F", "G"]
+
   useControls("capture", {
-    expression: { options: ["A", "B", "C", "D", "E", "F", "G"] },
+    expression: { options: expressionOptions },
     capture: button(capture),
   })
 
-  const summary = Object.keys(captures).join("\n")
+  const captured = Object.keys(captures).sort()
+  const remaining = expressionOptions.filter((item) => !captured.includes(item))
+
+  const capturedString = captured.join(", ")
+  const remainingString = remaining.join(", ")
   const [_, set] = useControls(
     "export",
     () => ({
-      summary: { value: summary, editable: false },
+      captured: { value: capturedString, editable: false },
+      remaining: { value: remainingString, editable: false },
       export: button(exportData),
     }),
-    [exportData],
+    [exportData]
   )
   useEffect(() => {
-    set({ summary })
-  }, [summary])
+    set({ captured: capturedString, remaining: remainingString })
+  }, [capturedString, remainingString])
 
   const initCanvas = ({ gl }) => {
     gl.setScissorTest(true)
   }
   return (
     <>
+      <div
+        style={{
+          position: "absolute",
+          zIndex: 2,
+          display: "grid",
+          placeContent: "start center",
+          width: "100%",
+          height: "100%",
+          overflow: "hidden",
+        }}
+      >
+        <Leva fill collapsed hideCopyButton titleBar={{ filter: false, title: "Controls" }} />
+      </div>
       <Webcam
         style={{
           position: "absolute",
@@ -113,16 +125,10 @@ function DashboardPanels({ avatar = "custom", onOpenPicker = () => {} }) {
         <Suspense fallback={null}>
           <Environment preset="warehouse" background />
 
-          <IOSProvider
-            blendShapesRef={iosBlendShapes}
-            calibrationKey={calibrationKey}
-          >
+          <IOSProvider blendShapesRef={iosBlendShapes} calibrationKey={calibrationKey}>
             {/* BOTTOM LEFT */}
             <group>
-              <PerspectiveCameraView
-                bounds={{ min: [0, 0], max: [0.5, 0.5] }}
-                position={[0, 0, 5]}
-              />
+              <PerspectiveCameraView bounds={{ min: [0, 0], max: [0.5, 0.5] }} position={[0, 0, 5]} />
               <Backdrop />
               <group scale={14}>
                 <group scale-x={-1}>
@@ -134,10 +140,7 @@ function DashboardPanels({ avatar = "custom", onOpenPicker = () => {} }) {
             {/* BOTTOM RIGHT */}
             <group position={[100, 0, 0]}>
               <Backdrop />
-              <PerspectiveCameraView
-                bounds={{ min: [0.5, 0], max: [1, 0.5] }}
-                position={[0, 0, 5]}
-              />
+              <PerspectiveCameraView bounds={{ min: [0.5, 0], max: [1, 0.5] }} position={[0, 0, 5]} />
               <group scale={10}>
                 <group position={[0, -0.64, 0]} scale-x={-1}>
                   <ReadyPlayerMeAvatar path={avatarURL} />
@@ -146,17 +149,11 @@ function DashboardPanels({ avatar = "custom", onOpenPicker = () => {} }) {
             </group>
           </IOSProvider>
 
-          <HallwayProvider
-            blendShapesRef={hallwayBlendShapes}
-            calibrationKey={calibrationKey}
-          >
+          <HallwayProvider blendShapesRef={hallwayBlendShapes} calibrationKey={calibrationKey}>
             {/* TOP RIGHT */}
             <group position={[200, 0, 0]}>
               <Backdrop />
-              <PerspectiveCameraView
-                bounds={{ min: [0.5, 0.5], max: [1, 1] }}
-                position={[0, 0, 5]}
-              />
+              <PerspectiveCameraView bounds={{ min: [0.5, 0.5], max: [1, 1] }} position={[0, 0, 5]} />
               <group scale={10}>
                 <group position={[0, -0.64, 0]} scale-x={-1}>
                   <ReadyPlayerMeAvatar path={avatarURL} />
