@@ -1,16 +1,17 @@
 html,
-body {
+body,
+#root {
   height: 100%;
   margin: 0;
 }
+* {
+  box-sizing: border-box;
+}
+
 body {
-  display: grid;
-  grid-auto-columns: 1fr;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 a {
-  display: grid;
-  place-content: center;
   margin: 20px;
   border: 2px solid black;
   font-size: 30pt;
@@ -27,4 +28,19 @@ ul {
 label {
   display: flex;
   gap: 8px;
+}
+.center {
+  display: grid;
+  place-content: center;
+}
+#rows {
+  display: grid;
+  grid-auto-columns: 1fr;
+  height: 100%;
+  padding: 40px;
+}
+
+label,
+input {
+  font-size: 20pt;
 }

@@ -6,22 +6,22 @@ export function IndexPage() {
   const searchParams = new URLSearchParams({ room })
   const query = searchParams.toString()
   return (
-    <>
-      <label>
-        Room:
-        <input value={room} onChange={(e) => setRoom(e.target.value)} />
-      </label>
-      <ul>
-        <li>
-          <a href={`/dashboard/?${query}`}>Dashboard</a>
-        </li>
-        <li>
-          <a href={`/ios/?${query}`}>iOS</a>
-        </li>
-        <li>
-          <a href="/hallway/">Hallway</a>
-        </li>
-      </ul>
-    </>
+    <div id="rows">
+      <div class="center">
+        <label>
+          Room:
+          <input value={room} onChange={(e) => setRoom(e.target.value)} />
+        </label>
+      </div>
+      <a class="center" href={`/dashboard/?${query}`}>
+        Dashboard
+      </a>
+      <a class="center" href={`/ios/?${query}`}>
+        iOS
+      </a>
+      <a class="center" href="/hallway/">
+        Hallway
+      </a>
+    </div>
   )
 }

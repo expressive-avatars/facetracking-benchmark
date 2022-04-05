@@ -15,13 +15,13 @@ async function createServer() {
   })
 
   io.of("/dashboard").on("connection", (socket) => {
-    const { room } = socket.handshake.query
+    const room = socket.handshake.query.room || ""
     socket.join(room)
     console.log("dashboard connected to room", room)
   })
 
   io.on("connection", (socket) => {
-    const { room } = socket.handshake.query
+    const room = socket.handshake.query.room || ""
     socket.join(room)
 
     console.log("ios device connected to room", room)
