@@ -1,5 +1,4 @@
 const express = require("express")
-const { createServer: createViteServer } = require("vite")
 const { Server: SocketIoServer } = require("socket.io")
 
 const PORT = process.env.PORT || 3000
@@ -34,6 +33,7 @@ async function createServer() {
   })
 
   if (process.env.NODE_ENV === "development") {
+    const { createServer: createViteServer } = require("vite")
     const vite = await createViteServer({
       server: { middlewareMode: "html", hmr: { server } },
     })
