@@ -16,7 +16,7 @@ const subscribers = new Set()
 export function FacetrackingManager() {
   const [headQuaternion] = useState(() => new THREE.Quaternion())
 
-  const [socket] = useState(() => io())
+  const [socket] = useState(() => io("", { query: Object.fromEntries(new URL(location.href).searchParams.entries()) }))
 
   useXRSession((session) => {
     if (session) {

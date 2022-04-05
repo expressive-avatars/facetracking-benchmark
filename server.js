@@ -14,13 +14,22 @@ async function createServer() {
     res.send("Hey express")
   })
 
+  io.of("/dashboard").on("connection", (socket) => {
+    const { room } = socket.handshake.query
+    socket.join(room)
+    console.log("dashboard connected to room", room)
+  })
+
   io.on("connection", (socket) => {
-    console.log("a user connected")
+    const { room } = socket.handshake.query
+    socket.join(room)
+
+    console.log("ios device connected to room", room)
     socket.on("message", (message) => console.log(`[${socket.id}]`, message))
 
     // Received iOS tracking results
     socket.on("results", (results) => {
-      io.of("/dashboard").volatile.emit("iosResults", results)
+      io.of("/dashboard").in(room).volatile.emit("iosResults", results)
     })
   })
 

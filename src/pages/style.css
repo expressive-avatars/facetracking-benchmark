@@ -1,0 +1,30 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+body {
+  display: grid;
+  grid-auto-columns: 1fr;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+a {
+  display: grid;
+  place-content: center;
+  margin: 20px;
+  border: 2px solid black;
+  font-size: 30pt;
+  text-decoration: none;
+  color: black;
+}
+a:hover {
+  text-decoration: underline;
+}
+li,
+ul {
+  all: unset;
+}
+label {
+  display: flex;
+  gap: 8px;
+}

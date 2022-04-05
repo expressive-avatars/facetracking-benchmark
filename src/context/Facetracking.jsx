@@ -35,7 +35,9 @@ export const useFaceMesh = (fn) => {
 }
 
 export function IOSProvider({ calibrationKey, blendShapesRef, children }) {
-  const [socket] = useState(() => io("/dashboard"))
+  const [socket] = useState(() =>
+    io("/dashboard", { query: Object.fromEntries(new URL(location.href).searchParams.entries()) })
+  )
   const [[blendShapeListeners, faceMeshListeners]] = useState(() => [new Set(), new Set()])
 
   /**
