@@ -1,4 +1,11 @@
-import { Suspense, useEffect, useLayoutEffect, useReducer, useRef, useState } from "react"
+import {
+  Suspense,
+  useEffect,
+  useLayoutEffect,
+  useReducer,
+  useRef,
+  useState,
+} from "react"
 import { Canvas, useFrame, useThree } from "@react-three/fiber"
 import { Environment, Sphere, Stats } from "@react-three/drei"
 import * as THREE from "three"
@@ -12,7 +19,7 @@ import { AvatarPicker } from "@/components/dashboard/AvatarPicker"
 
 export function DashboardPage() {
   const [avatar, setAvatar] = useState(null)
-  return true ? (
+  return avatar ? (
     <DashboardPanels avatar={avatar} onOpenPicker={() => setAvatar(null)} />
   ) : (
     <AvatarPicker onInput={(value) => setAvatar(value)} />
@@ -20,7 +27,7 @@ export function DashboardPage() {
 }
 
 function DashboardPanels({ avatar = "custom", onOpenPicker = () => {} }) {
-  const avatarURL = "https://d1a370nemizbjq.cloudfront.net/54a8ca1e-1759-4cf9-ab76-bec155d6c83c.glb"
+  const avatarURL = `/avatars/${avatar}.glb`
 
   const [calibrationKey, calibrate] = useReducer((x) => x + 1, 0)
   const iosBlendShapes = useRef()
@@ -72,7 +79,7 @@ function DashboardPanels({ avatar = "custom", onOpenPicker = () => {} }) {
       summary: { value: summary, editable: false },
       export: button(exportData),
     }),
-    [exportData]
+    [exportData],
   )
   useEffect(() => {
     set({ summary })
@@ -106,10 +113,16 @@ function DashboardPanels({ avatar = "custom", onOpenPicker = () => {} }) {
         <Suspense fallback={null}>
           <Environment preset="warehouse" background />
 
-          <IOSProvider blendShapesRef={iosBlendShapes} calibrationKey={calibrationKey}>
+          <IOSProvider
+            blendShapesRef={iosBlendShapes}
+            calibrationKey={calibrationKey}
+          >
             {/* BOTTOM LEFT */}
             <group>
-              <PerspectiveCameraView bounds={{ min: [0, 0], max: [0.5, 0.5] }} position={[0, 0, 5]} />
+              <PerspectiveCameraView
+                bounds={{ min: [0, 0], max: [0.5, 0.5] }}
+                position={[0, 0, 5]}
+              />
               <Backdrop />
               <group scale={14}>
                 <group scale-x={-1}>
@@ -121,7 +134,10 @@ function DashboardPanels({ avatar = "custom", onOpenPicker = () => {} }) {
             {/* BOTTOM RIGHT */}
             <group position={[100, 0, 0]}>
               <Backdrop />
-              <PerspectiveCameraView bounds={{ min: [0.5, 0], max: [1, 0.5] }} position={[0, 0, 5]} />
+              <PerspectiveCameraView
+                bounds={{ min: [0.5, 0], max: [1, 0.5] }}
+                position={[0, 0, 5]}
+              />
               <group scale={10}>
                 <group position={[0, -0.64, 0]} scale-x={-1}>
                   <ReadyPlayerMeAvatar path={avatarURL} />
@@ -130,11 +146,17 @@ function DashboardPanels({ avatar = "custom", onOpenPicker = () => {} }) {
             </group>
           </IOSProvider>
 
-          <HallwayProvider blendShapesRef={hallwayBlendShapes} calibrationKey={calibrationKey}>
+          <HallwayProvider
+            blendShapesRef={hallwayBlendShapes}
+            calibrationKey={calibrationKey}
+          >
             {/* TOP RIGHT */}
             <group position={[200, 0, 0]}>
               <Backdrop />
-              <PerspectiveCameraView bounds={{ min: [0.5, 0.5], max: [1, 1] }} position={[0, 0, 5]} />
+              <PerspectiveCameraView
+                bounds={{ min: [0.5, 0.5], max: [1, 1] }}
+                position={[0, 0, 5]}
+              />
               <group scale={10}>
                 <group position={[0, -0.64, 0]} scale-x={-1}>
                   <ReadyPlayerMeAvatar path={avatarURL} />
