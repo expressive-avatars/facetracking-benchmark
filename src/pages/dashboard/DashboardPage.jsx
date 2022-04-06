@@ -115,7 +115,7 @@ function DashboardPanels({ avatar = "custom", onOpenPicker = () => {} }) {
       <div className={style.centered}>
         <div className={style.labels}>
           <span className={style.label}>Webcam</span>
-          <span className={style.label}>Avatar (Hallway)</span>
+          <span className={style.label}>Avatar (Webcam)</span>
           <span className={style.label}>Mesh (iOS)</span>
           <span className={style.label}>Avatar (iOS)</span>
         </div>
